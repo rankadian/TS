@@ -1,4 +1,4 @@
-<!doctype html>
+{{-- <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -77,4 +77,11 @@
         </main>
     </div>
 </body>
-</html>
+</html> --}}
+
+<!-- Sidebar -->
+@if(auth()->check() && auth()->user()->hasRole('admin'))
+    @include('layouts.sidebar.admin')
+@elseif(auth()->check() && auth()->user()->hasRole('user'))
+    @include('layouts.sidebar.user')
+@endif

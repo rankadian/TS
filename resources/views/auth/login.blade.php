@@ -1,73 +1,241 @@
-@extends('layouts.app')
+@extends('adminlte::master')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+@section('adminlte_css')
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+        .login-box {
+            width: 400px;
+            margin: 0 auto;
+        }
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+        .login-card-body {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+            transition: all 0.3s ease;
+        }
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+        .logo-circle:hover {
+            transform: scale(1.05);
+        }
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        .logo-circle .fas {
+            color: white;
+            font-size: 2rem;
+        }
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+        .login-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
+        .form-label {
+            color: #6c757d;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 12px;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .forgot-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #764ba2;
+            text-decoration: none;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6c757d;
+        }
+
+        .footer-text strong {
+            color: #333;
+        }
+
+        .copyright {
+            color: #adb5bd;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group .form-control {
+            border-right: none;
+        }
+
+        .input-group-text {
+            background: white;
+            border-left: none;
+            border-color: #e1e5e9;
+            color: #6c757d;
+        }
+
+        .invalid-feedback {
+            display: block;
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+@endsection
+
+@section('body')
+    <div class="login-page">
+        <div class="login-box">
+            <div class="card login-card-body">
+                <!-- Logo Section -->
+                <div class="logo-container">
+                    <div class="logo-circle">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4 class="login-title">Sign In</h4>
+                    <p class="login-subtitle">Tracer Study Information System Malang State Polytechnic - TSPM</p>
                 </div>
+
+                <!-- Login Form -->
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
+
+                    {{-- Username/Email Field --}}
+                    <div class="form-group">
+                        <label class="form-label">Username/Email</label>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                            value="{{ old('email') }}" placeholder="Username/Email" required autofocus>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    {{-- Password Field --}}
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                            placeholder="Password" required>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    {{-- Login Button --}}
+                    <button type="submit" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+
+                    {{-- Forgot Password Link --}}
+                    <div class="text-center">
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}" class="forgot-link">
+                                Batal
+                            </a>
+                        @endif
+                    </div>
+
+                    {{-- Hidden Remember Me --}}
+                    <input type="hidden" name="remember" value="1">
+                </form>
+            </div>
+
+            <!-- Footer Text -->
+            <div class="footer-text">
+                <p class="mb-1">
+                    <strong>TSPM</strong> - Tracer Study of Malang State Polytechnic.
+                </p>
+                <p class="copyright mb-0">
+                    Copyright 2025
+                </p>
             </div>
         </div>
     </div>
-</div>
 @endsection
