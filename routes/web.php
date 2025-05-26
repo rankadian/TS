@@ -16,8 +16,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+//landing page
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Auth::routes();
@@ -37,3 +38,4 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         return view('user.dashboard');
     })->name('user.dashboard');
 });
+
