@@ -79,6 +79,9 @@
 </body>
 </html> --}}
 
+<!-- Scripts -->
+ <script type="module" src="{{ asset('js/robot-viewer.js') }}"></script>
+ 
 <!-- Sidebar -->
 @if(auth()->check() && auth()->user()->hasRole('admin'))
     @include('layouts.sidebar.admin')

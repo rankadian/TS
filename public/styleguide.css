@@ -1,0 +1,23 @@
+:root {
+    --absolutewhite: rgba(255, 255, 255, 1);
+    --grey-60: rgba(153, 153, 153, 1);
+    --grey-08: rgba(20, 20, 20, 1);
+    --tracer-ub-ac-id-semantic-code-font-family: "Inter", Helvetica;
+    --tracer-ub-ac-id-semantic-code-font-weight: 400;
+    --tracer-ub-ac-id-semantic-code-font-size: 12px;
+    --tracer-ub-ac-id-semantic-code-letter-spacing: 0px;
+    --tracer-ub-ac-id-semantic-code-line-height: 18px;
+    --tracer-ub-ac-id-semantic-code-font-style: normal;
+    --tracer-ub-ac-id-semantic-heading-1-font-family: "Segoe UI", Helvetica;
+    --tracer-ub-ac-id-semantic-heading-1-font-weight: 400;
+    --tracer-ub-ac-id-semantic-heading-1-font-size: 40px;
+    --tracer-ub-ac-id-semantic-heading-1-letter-spacing: 0px;
+    --tracer-ub-ac-id-semantic-heading-1-line-height: 60px;
+    --tracer-ub-ac-id-semantic-heading-1-font-style: normal;
+    --tracer-ub-ac-id-segoe-UI-regular-font-family: "Segoe UI", Helvetica;
+    --tracer-ub-ac-id-segoe-UI-regular-font-weight: 400;
+    --tracer-ub-ac-id-segoe-UI-regular-font-size: 12px;
+    --tracer-ub-ac-id-segoe-UI-regular-letter-spacing: 0px;
+    --tracer-ub-ac-id-segoe-UI-regular-line-height: 18px;
+    --tracer-ub-ac-id-segoe-UI-regular-font-style: normal;
+}
