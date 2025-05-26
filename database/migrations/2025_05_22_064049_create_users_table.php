@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,20 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->id(); // Primary Key
+
+            $table->unsignedBigInteger('program_studi_id')->nullable();
+            $table->year('tahun_lulus')->nullable();
+            $table->string('nama');
+            $table->string('no_hp', 20)->nullable();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->unsignedBigInteger('role_id')->nullable(); // Tambahkan ini
+            $table->unsignedBigInteger('role_id')->nullable();
+            $table->string('nim', 20)->unique();
+
             $table->timestamps();
 
-            // Tambahkan foreign key constraint
-            $table->foreign('role_id')
-                  ->references('id')
-                  ->on('roles')
-                  ->onDelete('set null');
+            // Foreign key constraints
+            $table->foreign('program_studi_id')->references('id')->on('program_studi')->onDelete('set null');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
         });
     }
 
@@ -34,11 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['role_id']);
-            $table->dropColumn('role_id');
-        });
-        
         Schema::dropIfExists('users');
     }
 };
