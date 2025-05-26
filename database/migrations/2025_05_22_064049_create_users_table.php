@@ -18,7 +18,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->unsignedBigInteger('role_id')->nullable(); // Tambahkan ini
             $table->timestamps();
+
+            // Tambahkan foreign key constraint
+            $table->foreign('role_id')
+                  ->references('id')
+                  ->on('roles')
+                  ->onDelete('set null');
         });
     }
 
@@ -27,6 +34,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['role_id']);
+            $table->dropColumn('role_id');
+        });
+        
         Schema::dropIfExists('users');
     }
 };
