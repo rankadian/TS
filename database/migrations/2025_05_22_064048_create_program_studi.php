@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('program_studi', function (Blueprint $table) {
-            $table->id(); // Ini akan membuat kolom 'id' sebagai primary key auto-increment
-            $table->string('nama', 100)->unique(); // Nama program studi dengan constraint unique
-            $table->timestamps(); // Otomatis membuat created_at dan updated_at
+            $table->id();
+            $table->string('nama', 100)->unique();
+            $table->timestamps();
         });
     }
 
