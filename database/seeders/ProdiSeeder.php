@@ -10,9 +10,11 @@ class ProdiSeeder extends Seeder
     public function run(): void
     {
         DB::table('prodi')->insert([
-            ['nama' => 'Teknik Informatika'],
-            ['nama' => 'Sistem Informasi'],
-            ['nama' => 'Manajemen'],
+            ['nama' => 'D4 TI'],
+            ['nama' => 'D4 SIB'],
+            ['nama' => 'D2 PPLS'],
+            ['nama' => 'S2 MRTI']
+            
         ]);
     }
 }

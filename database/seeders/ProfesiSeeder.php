@@ -9,10 +9,10 @@ class ProfesiSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('profesi')->insert([
-            ['nama' => 'Software Engineer'],
-            ['nama' => 'Data Analyst'],
-            ['nama' => 'Project Manager'],
-        ]);
+        // DB::table('profesi')->insert([
+        //     ['nama' => 'Software Engineer'],
+        //     ['nama' => 'Data Analyst'],
+        //     ['nama' => 'Project Manager'],
+        // ]);
     }
 }

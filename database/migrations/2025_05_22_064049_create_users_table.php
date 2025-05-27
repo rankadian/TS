@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('program_studi_id')->nullable();
             $table->year('tahun_lulus')->nullable();
-            $table->string('nama');
+            $table->string('name');
             $table->string('no_hp', 20)->nullable();
             $table->string('email')->unique();
             $table->unsignedBigInteger('role_id')->nullable();

@@ -9,10 +9,10 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('admin')->insert([
-            'user_id' => 1,
-            'nama' => 'Admin Utama',
-            'no_hp' => '081234567890',
-        ]);
+        // DB::table('admin')->insert([
+        //     'user_id' => 1,
+        //     'nama' => 'Admin Utama',
+        //     'no_hp' => '081234567890',
+        // ]);
     }
 }
