@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Jika digunakan untuk login
+use Illuminate\Notifications\Notifiable;
+
+class Alumni extends Authenticatable
+{
+    use HasFactory, Notifiable;
+
+    protected $table = 'm_alumni';
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'tahun_lulus',
+        'name',
+        'no_hp',
+        'email',
+        'password',
+        'role_id',
+        'nim',
+        'email_verified_at',
+        'remember_token',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'tahun_lulus' => 'integer',
+    ];
+
+    /**
+     * Relasi ke model Role
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'role_id');
+    }
+}
