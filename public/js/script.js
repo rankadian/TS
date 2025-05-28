@@ -275,3 +275,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+// Membuat div navigasi bisa diklik
+document.querySelectorAll('.frame-20 .frame-21').forEach(button => {
+    button.addEventListener('click', function() {
+        const text = this.querySelector('.text-wrapper-8').textContent.toLowerCase();
+        
+        // Sesuaikan dengan kebutuhan Anda
+        if(text === 'about') {
+            window.location.href = '/about';
+        } else if(text === 'f.a.q') {
+            window.location.href = '/faq';
+        } else if(text === 'contact') {
+            window.location.href = '/contact';
+        }
+    });
+    
+    // Tambahkan efek keyboard accessibility
+    button.addEventListener('keydown', function(e) {
+        if(e.key === 'Enter' || e.key === ' ') {
+            this.click();
+        }
+    });
+    
+    // Untuk accessibility
+    button.setAttribute('role', 'button');
+    button.setAttribute('tabindex', '0');
+});

@@ -139,9 +139,12 @@
                                     <div class="text-9">GRAD Journey</div>
                                 </div>
                                 <div class="frame-20">
-                                    <div class="frame-21"><div class="text-wrapper-8">About</div></div>
-                                    <div class="frame-21"><div class="text-wrapper-8">F.A.Q</div></div>
-                                    <div class="frame-21"><div class="text-wrapper-8">Contact</div></div>
+                                    <button class="frame-21" onclick="window.location.href='/about'">
+                                        <span class="text-wrapper-8">About</span></button>
+                                    <button class="frame-21" onclick="window.location.href='/faq'">
+                                        <span class="text-wrapper-8">F.A.Q</span></button>
+                                    <button class="frame-21" onclick="window.location.href='/contact'">
+                                        <span class="text-wrapper-8">Contact</span></button>
                                 </div>
                             </header>
                         </div>

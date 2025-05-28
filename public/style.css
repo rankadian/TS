@@ -752,36 +752,68 @@
     white-space: nowrap;
 }
 
+/* Container navigasi */
 .landing-page .frame-20 {
+    display: flex;
+    gap: 20px;
+}
+
+/* Gaya untuk item navigasi */
+.landing-page .frame-20 .frame-21 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 69px;
+    padding: 12px 24px;
     position: relative;
-    flex: 0 0 auto;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.landing-page .frame-21 {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+/* Teks navigasi */
+.landing-page .frame-20 .frame-21 .text-wrapper-8 {
     position: relative;
-    flex: 0 0 auto;
-}
-
-.landing-page .text-wrapper-8 {
-    position: relative;
-    width: fit-content;
-    margin-top: -1px;
     font-family: "Urbanist", sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     color: #ffffff;
-    font-size: 20px;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: 30px;
-    white-space: nowrap;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+/* Efek hover */
+.landing-page .frame-20 .frame-21:hover {
+    background-color: rgba(37, 120, 176, 0.1);
+    border-color: rgba(37, 120, 176, 0.5);
+}
+
+.landing-page .frame-20 .frame-21:hover .text-wrapper-8 {
+    color: #7db9e6;
+}
+
+/* Efek aktif */
+.landing-page .frame-20 .frame-21:active {
+    transform: scale(0.98);
+    background-color: rgba(37, 120, 176, 0.2);
+}
+
+/* Garis bawah animasi */
+.landing-page .frame-20 .frame-21::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #7db9e6;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.landing-page .frame-20 .frame-21:hover::after {
+    width: 70%;
 }
 
 .landing-page .container {
