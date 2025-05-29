@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function login()
     {
-        if (Auth::check()) {
+         if (Auth::guard('admin')->check() || Auth::guard('alumni')->check()) {
             return redirect('/');
         }
         return view('auth.login');
