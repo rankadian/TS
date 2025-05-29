@@ -15,27 +15,50 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function postlogin(Request $request)
-    {
-        if ($request->ajax() || $request->wantsJson()) {
-            $credentials = $request->only('username', 'password');
+    public function authenticate(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'email' => 'required|string',
+        'password' => 'required|string',
+    ]);
 
-            if (Auth::attempt($credentials)) {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Login Success',
-                    'redirect' => url('/')
+    $credentials = [
+        'email' => $request->email,
+        'password' => $request->password,
+    ];
 
-                ]);
-            }
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Login Failed',
-            ]);
-        }
-        return redirect('login');
+    // Coba login sebagai admin
+    if (Auth::guard('admin')->attempt($credentials)) {
+        $request->session()->regenerate();
+        return response()->json([
+            'status' => true,
+            'message' => 'Login berhasil sebagai admin.',
+            'redirect' => route('admin.dashboard')
+        ]);
     }
+
+    // Coba login sebagai alumni
+    if (Auth::guard('alumni')->attempt($credentials)) {
+        $request->session()->regenerate();
+        return response()->json([
+            'status' => true,
+            'message' => 'Login berhasil sebagai alumni.',
+            'redirect' => route('alumni.dashboard')
+        ]);
+    }
+
+    // Jika gagal semua
+    return response()->json([
+        'status' => false,
+        'message' => 'Email atau password salah.',
+        'msgField' => [
+            'email' => ['Email tidak ditemukan atau salah'],
+            'password' => ['Password salah']
+        ]
+    ]);
+}
+
 
     public function logout(Request $request)
     {
