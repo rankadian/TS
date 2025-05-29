@@ -43,4 +43,20 @@ class AlumniModel extends Authenticatable
     {
         return $this->belongsTo(RoleModel::class, 'role_id', 'role_id');
     }
+
+    /**
+     * Get the role name of the admin.
+     */
+    public function getRoleName(): string
+    {
+        return $this->role->role_name;
+    }
+
+    /**
+     * Check if the admin has a specific role.
+     */
+    public function hasRole($role): bool
+    {
+        return $this->role->role_code === $role;
+    }
 }
