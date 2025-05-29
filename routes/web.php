@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,16 @@ Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::middleware(['auth'])->group(function(){
-    
+Route::middleware(['auth'])->group(function () {
+    // route for admin
+    Route::middleware(['auth:admin', 'authorize.user:admin'])->group(function () {
+        Route::group(['prefix' => 'admin'], function () {
+            Route::get('/', [AdminController::class, 'index']);
+        });
+    });
+
+    // route for alumni
+    Route::middleware(['auth:admin', 'authorize.user:admin'])->group(function () {
+        Route::group(['prefix' => 'admin'], function () {});
+    });
 });
