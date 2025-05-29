@@ -14,7 +14,7 @@ class AdminModel extends Authenticatable
     protected $primaryKey = 'admin_id';
 
     protected $fillable = [
-        'nama',
+        'name',
         'email',
         'password',
         'role_id',
