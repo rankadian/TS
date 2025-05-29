@@ -33,8 +33,8 @@ class AuthController extends Controller
         $request->session()->regenerate();
         return response()->json([
             'status' => true,
-            'message' => 'Login berhasil sebagai admin.',
-            'redirect' => route('admin.dashboard')
+            'message' => 'Successful login as admin.',
+            'redirect' => route('admin.index')
         ]);
     }
 
@@ -43,8 +43,8 @@ class AuthController extends Controller
         $request->session()->regenerate();
         return response()->json([
             'status' => true,
-            'message' => 'Login berhasil sebagai alumni.',
-            'redirect' => route('alumni.dashboard')
+            'message' => 'Successful login as an alumnus.',
+            'redirect' => route('alumni.index')
         ]);
     }
 
