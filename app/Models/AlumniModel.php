@@ -33,6 +33,7 @@ class AlumniModel extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'tahun_lulus' => 'integer',
+        'password' => 'hashed',
     ];
 
     /**
