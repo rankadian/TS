@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('m_admin', function (Blueprint $table) {
             $table->id('admin_id');
-            $table->string('nama', 100);
+            $table->string('name', 100);
             $table->string('email', 100);
             $table->unsignedBigInteger('role_id'); // Tambahkan kolom role_id
             $table->rememberToken();

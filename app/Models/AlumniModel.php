@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable; // Jika digunakan untuk login
 use Illuminate\Notifications\Notifiable;
 
-class Alumni extends Authenticatable
+class AlumniModel extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -40,6 +40,6 @@ class Alumni extends Authenticatable
      */
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id', 'role_id');
+        return $this->belongsTo(RoleModel::class, 'role_id', 'role_id');
     }
 }
