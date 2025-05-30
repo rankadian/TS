@@ -21,6 +21,11 @@ Route::get('/', function () {
     return view('landing');
 });
 
+// FAQ Page
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
+
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
