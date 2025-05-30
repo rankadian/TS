@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class RoleModel extends Model
 {
     use HasFactory;
 
@@ -22,6 +22,6 @@ class Role extends Model
      */
     public function alumni()
     {
-        return $this->hasMany(Alumni::class, 'role_id', 'role_id');
+        return $this->hasMany(AlumniModel::class, 'role_id', 'role_id');
     }
 }

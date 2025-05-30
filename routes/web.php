@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -21,26 +23,23 @@ Route::get('/', function () {
     return view('landing');
 });
 
-// FAQ Page
-Route::get('/faq', function () {
-    return view('faq');
-})->name('faq');
+// auth
+Route::pattern('id', '[0-9]+');
 
-Auth::routes();
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function () {
+    // route for admin
+    Route::middleware(['auth:admin', 'authorize.user:admin'])->group(function () {
+        Route::group(['prefix' => 'admin'], function () {
+            Route::get('/', [AdminController::class, 'index']);
+        });
+    });
 
-// login admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    // route for alumni
+    Route::middleware(['auth:admin', 'authorize.user:admin'])->group(function () {
+        Route::group(['prefix' => 'admin'], function () {});
+    });
 });
-
-// login user
-Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/user/dashboard', function () {
-        return view('user.dashboard');
-    })->name('user.dashboard');
-});
-
