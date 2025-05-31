@@ -36,15 +36,15 @@ class AuthorizeUser
         }
 
         // Get the user's role
-        $userRole = $user->role->name ?? null;
+        $userRole = $user->role->role_code ?? null;
 
         // Compare the user's role with the allowed roles
         $allowedRoles = explode('|', $roles);
 
-        if (in_array($userRole, $allowedRoles)) {
-            return $next($request);
+        if (!in_array($userRole, $allowedRoles)) {
+            abort(403, 'Forbidden. You do not have access to this page');
         }
 
-        abort(403, 'Forbidden. You do not have access to this page');
+        return $next($request);
     }
 }
