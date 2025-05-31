@@ -1,29 +1,29 @@
-<form action="{{ url('/barang/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
+<form action="{{ url('/admin/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data Barang</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Import Alumni Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Download Template</label>
-                    <a href="{{ asset('Template barang.xlsx') }}" class="btn btn-info btn-sm" download>
+                    <label>Download Data Format</label>
+                    <a href="{{ asset('Format Alumni.xlsx') }}" class="btn btn-info btn-sm" download>
                         <i class="fa fa-file-excel"></i> Download
                     </a>
                     <small id="error-kategori_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Pilih File</label>
-                    <input type="file" name="file_barang" id="file_barang" class="form-control" required>
-                    <small id="error-file_barang" class="error-text form-text text-danger"></small>
+                    <input type="file" name="file_alumni" id="file_alumni" class="form-control" required>
+                    <small id="error-file_alumni" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
+                <button type="button" data-dismiss="modal" class="btn btn-warning">Cancel</button>
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
         </div>
@@ -52,7 +52,7 @@
                             $('#myModal').modal('hide');
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Berhasil',
+                                title: 'Success',
                                 text: response.message
                             });
                             tableAlumni.ajax.reload(); // Reload datatable
@@ -63,7 +63,7 @@
                             });
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Terjadi Kesalahan',
+                                title: 'Error occurred',
                                 text: response.message
                             });
                         }
