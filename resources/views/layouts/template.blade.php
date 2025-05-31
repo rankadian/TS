@@ -43,8 +43,21 @@
       </a>
 
       <!-- Sidebar -->
-      @include('layouts.sidebar')
+      @php
+    $roleCode = null;
+    if (Auth::guard('admin')->check()) {
+      $roleCode = 'admin';
+    } elseif (Auth::guard('alumni')->check()) {
+      $roleCode = 'alumni';
+    }
+    @endphp
+
+      @if ($roleCode)
+      @include('layouts.sidebar.' . $roleCode)
+    @endif
       <!-- /.sidebar -->
+
+
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
