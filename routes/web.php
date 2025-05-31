@@ -35,11 +35,21 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth:admin', 'authorize.user:admin'])->group(function () {
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [AdminController::class, 'index']);
+            Route::post('/list', [AdminController::class, 'list']);
+            Route::get('/{id}/show_ajax', [AdminController::class, 'show_ajax']);
+            Route::get('/create_ajax', [AdminController::class, 'create_ajax']);
+            Route::get('/{id}/edit_ajax', [AdminController::class, 'edit_ajax']);
+            Route::post('/ajax', [AdminController::class, 'store_ajax']);
+            Route::put('/{id}/update_ajax', [AdminController::class, 'update_ajax']);
+            Route::get('/{id}/delete_ajax', [AdminController::class, 'confirm_ajax']);
+            Route::delete('/{id}/delete_ajax', [AdminController::class, 'delete_ajax']);
         });
     });
 
     // route for alumni
-    Route::middleware(['auth:admin', 'authorize.user:admin'])->group(function () {
-        Route::group(['prefix' => 'admin'], function () {});
-    });
+    // Route::middleware(['auth:alumni', 'authorize.user:alumni'])->group(function () {
+    //     Route::group(['prefix' => 'alumni'], function () {
+    //         Route::get('/', [AdminController::class, 'index']);
+    //     });
+    // });
 });
