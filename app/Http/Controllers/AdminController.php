@@ -213,7 +213,7 @@ class AdminController extends Controller
 
             $insert = [];
             foreach ($data as $baris => $value) {
-                if ($baris > 1 && !empty($value['B'])) { // Skip header and empty rows
+                if ($baris > 1 && !empty($value['B'])) {
                     $insert[] = [
                         'alumni_id' => $value['A'],
                         'program_study' => $value['B'],
