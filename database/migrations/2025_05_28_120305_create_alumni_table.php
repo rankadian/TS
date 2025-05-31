@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('m_alumni', function (Blueprint $table) {
             $table->id(); // Primary Key
-
-            $table->year('tahun_lulus')->nullable();
+            $table->string('program_study')->nullable();
+            $table->date('year_graduated')->nullable();
             $table->string('name');
             $table->string('no_hp', 20)->nullable();
             $table->string('email')->unique();
@@ -29,8 +29,8 @@ return new class extends Migration
 
             // Foreign key constraint
             $table->foreign('role_id')
-                  ->references('role_id')->on('m_role')
-                  ->onDelete('set null'); // Jika role dihapus, role_id menjadi null
+                ->references('role_id')->on('m_role')
+                ->onDelete('set null'); // Jika role dihapus, role_id menjadi null
         });
     }
 

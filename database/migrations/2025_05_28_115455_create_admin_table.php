@@ -22,8 +22,8 @@ return new class extends Migration
 
             // Foreign key constraint
             $table->foreign('role_id')
-                  ->references('role_id')->on('m_role')
-                  ->onDelete('cascade'); // Opsi: hapus admin jika role dihapus
+                ->references('role_id')->on('m_role')
+                ->onDelete('cascade'); // Opsi: hapus admin jika role dihapus
         });
     }
 
