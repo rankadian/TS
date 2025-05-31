@@ -100,7 +100,6 @@ class AdminController extends Controller
 
     public function update_ajax(Request $request, $id)
     {
-        // cek apakah request berupa ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'name' => 'required | string | min:3',
@@ -120,7 +119,7 @@ class AdminController extends Controller
 
             $check = AdminModel::find($id);
             if ($check) {
-                if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
+                if (!$request->filled('password')) {
                     $request->request->remove('password');
                 }
 
@@ -148,7 +147,6 @@ class AdminController extends Controller
 
     public function delete_ajax(Request $request, $id)
     {
-        // cek request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             $admin = AdminModel::find($id);
             if ($admin) {
