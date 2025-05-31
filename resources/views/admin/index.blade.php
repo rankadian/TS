@@ -11,7 +11,7 @@
                     Barang</a>
                 <a href="{{ url('/barang/export_pdf') }}" class="btn btn-secondary"><i class="fa fa-file-pdf"></i> Export
                     Barang</a>
-                <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Add
+                <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-success">Add
                     Admin</button>
             </div>
 
