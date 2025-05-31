@@ -11,6 +11,8 @@
                     Barang</a>
                 <a href="{{ url('/barang/export_pdf') }}" class="btn btn-secondary"><i class="fa fa-file-pdf"></i> Export
                     Barang</a>
+                <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Add
+                    Admin</button>
             </div>
 
         </div>
@@ -25,7 +27,7 @@
                 <thead>
                     <tr>
                         <th>Admin ID</th>
-                        <th>Nama</th>
+                        <th>Name</th>
                         <th>Email</th>
                         <th>Aksi</th>
                     </tr>
@@ -46,9 +48,9 @@
                     $('#myModal').modal('show');
                 });
             }
-            var dataLevel
+            var dataAdmin
             $(document).ready(function () {
-                dataLevel = $('#table_admin').DataTable({
+                dataAdmin = $('#table_admin').DataTable({
                     serverSide: true,
                     ajax: {
                         "url": "{{ url('admin/list') }}",
@@ -62,12 +64,12 @@
                             orderable: false,
                             searchable: false
                         }, {
-                            data: "",
+                            data: "name",
                             className: "",
                             orderable: false,
                             searchable: false
                         }, {
-                            data: "",
+                            data: "email",
                             className: "",
                             orderable: false,
                             searchable: false
