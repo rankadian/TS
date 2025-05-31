@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AdminModel;
 
 
 /*
@@ -32,9 +33,9 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
     // route for admin
-    Route::middleware(['auth:admin', 'authorize.user:admin'])->group(function () {
+    Route::middleware(['auth:admin', 'authorize.user:ADM'])->group(function () {
         Route::group(['prefix' => 'admin'], function () {
-            Route::get('/', [AdminController::class, 'index']);
+            Route::get('/', [AdminController::class, 'index'])->name('admin.index');
             Route::post('/list', [AdminController::class, 'list']);
             Route::get('/{id}/show_ajax', [AdminController::class, 'show_ajax']);
             Route::get('/create_ajax', [AdminController::class, 'create_ajax']);
@@ -47,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // route for alumni
-    // Route::middleware(['auth:alumni', 'authorize.user:alumni'])->group(function () {
+    // Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
     //     Route::group(['prefix' => 'alumni'], function () {
     //         Route::get('/', [AdminController::class, 'index']);
     //     });
