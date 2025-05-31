@@ -9,64 +9,66 @@ class AuthController extends Controller
 {
     public function login()
     {
-         if (Auth::guard('admin')->check() || Auth::guard('alumni')->check()) {
-            return redirect('/');
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.index');
         }
+
+        if (Auth::guard('alumni')->check()) {
+            return redirect()->route('alumni.index');
+        }
+
         return view('auth.login');
     }
 
     public function authenticate(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'email' => 'required|string',
-        'password' => 'required|string',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
-    $credentials = [
-        'email' => $request->email,
-        'password' => $request->password,
-    ];
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
 
-    // Coba login sebagai admin
-    if (Auth::guard('admin')->attempt($credentials)) {
-        $request->session()->regenerate();
+        if (Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return response()->json([
+                'status' => true,
+                'message' => 'Successful login as admin.',
+                'redirect' => route('admin.index')
+            ]);
+        }
+
+        if (Auth::guard('alumni')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return response()->json([
+                'status' => true,
+                'message' => 'Successful login as an alumnus.',
+                'redirect' => route('alumni.index')
+            ]);
+        }
+
         return response()->json([
-            'status' => true,
-            'message' => 'Successful login as admin.',
-            'redirect' => route('admin.index')
+            'status' => false,
+            'message' => 'Email atau password salah.',
+            'msgField' => [
+                'email' => ['Email tidak ditemukan atau salah'],
+                'password' => ['Password salah']
+            ]
         ]);
     }
-
-    // Coba login sebagai alumni
-    if (Auth::guard('alumni')->attempt($credentials)) {
-        $request->session()->regenerate();
-        return response()->json([
-            'status' => true,
-            'message' => 'Successful login as an alumnus.',
-            'redirect' => route('alumni.index')
-        ]);
-    }
-
-    // Jika gagal semua
-    return response()->json([
-        'status' => false,
-        'message' => 'Email atau password salah.',
-        'msgField' => [
-            'email' => ['Email tidak ditemukan atau salah'],
-            'password' => ['Password salah']
-        ]
-    ]);
-}
 
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('admin')->logout();
+        Auth::guard('alumni')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        // return redirect('login');
-        return redirect('landing');
+
+        return redirect('/');
     }
 }
