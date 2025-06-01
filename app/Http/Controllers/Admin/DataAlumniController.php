@@ -131,7 +131,7 @@ class DataAlumniController extends Controller
             'name' => 'required|min:3',
             'email' => 'required|email|unique:m_alumni,email,' . $id,
             'nim' => 'required|unique:m_alumni,nim,' . $id,
-            'year_graduated' => 'required|integer',
+            'year_graduated' => 'required|date',
             'program_study' => 'required|string|min:3',
             'password' => 'nullable|min:5',
         ]);
