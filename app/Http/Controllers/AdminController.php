@@ -102,43 +102,36 @@ class AdminController extends Controller
 
     public function update_ajax(Request $request, $id)
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'name' => 'required | string | min:3',
-                'email'      => 'required | string | max:100 | unique:m_admin, email' . $id . ',admin_id',
-                'password' => 'nullable | min:5'
-            ];
+        $admin = AdminModel::findOrFail($id);
 
-            $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:m_admin,email,' . $id . ',admin_id',
+            'password' => 'nullable|min:5',
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'    => false,
-                    'message'   => 'Validation Failed',
-                    'msgField'  => $validator->errors(),
-                ]);
-            }
-
-            $check = AdminModel::find($id);
-            if ($check) {
-                if (!$request->filled('password')) {
-                    $request->request->remove('password');
-                }
-
-                $check->update($request->all());
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Data successfully updated'
-                ]);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Data not found'
-                ]);
-            }
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'msgField' => $validator->errors()
+            ]);
         }
-        redirect('/');
+
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        if (!empty($request->password)) {
+            $admin->password = Hash::make($request->password);
+        }
+        $admin->role_id = $request->role_id;
+        $admin->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Admin updated successfully'
+        ]);
     }
+
 
     public function confirm_ajax(string $id)
     {
