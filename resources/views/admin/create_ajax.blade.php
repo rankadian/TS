@@ -4,8 +4,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Admin Data</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -19,8 +20,8 @@
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input value="" type="text" name="email" id="name" class="form-control" required>
-                    <small id="error-name" class="error-text form-text text-danger"></small>
+                    <input value="" type="text" name="email" id="email" class="form-control" required>
+                    <small id="error-email" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Password</label>
@@ -41,7 +42,7 @@
         $("#form-tambah").validate({
             rules: {
                 name: { required: true, minlength: 3 },
-                email: { required: true, maxlength: 100 },
+                email: { required: true, email: true, maxlength: 100 },
                 password: { required: true, minlength: 5 }
             },
             submitHandler: function (form) {
@@ -65,10 +66,17 @@
                             });
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Error occurred',
+                                title: 'Validation Error',
                                 text: response.message
                             });
                         }
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Server Error',
+                            text: 'Terjadi kesalahan saat menyimpan data.'
+                        });
                     }
                 });
                 return false;
@@ -78,10 +86,10 @@
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);
             },
-            highlight: function (element, errorClass, validClass) {
+            highlight: function (element) {
                 $(element).addClass('is-invalid');
             },
-            unhighlight: function (element, errorClass, validClass) {
+            unhighlight: function (element) {
                 $(element).removeClass('is-invalid');
             }
         });

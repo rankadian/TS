@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('admin.index');
             Route::post('/list', [AdminController::class, 'list']);
             Route::get('/{id}/show_ajax', [AdminController::class, 'show_ajax']);
-            Route::get('/create_ajax', [AdminController::class, 'create_ajax']);
+            Route::get('/user/create_ajax', [AdminController::class, 'create_ajax']);
             Route::get('/{id}/edit_ajax', [AdminController::class, 'edit_ajax']);
             Route::post('/ajax', [AdminController::class, 'store_ajax']);
             Route::put('/{id}/update_ajax', [AdminController::class, 'update_ajax']);

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -55,30 +56,31 @@ class AdminController extends Controller
 
     public function store_ajax(Request $request)
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'nama'     => 'required|string|min:3',
-                'email' => 'required|string|max:100|unique:m_admin,email',
-                'password' => 'required|min:5'
-            ];
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:m_admin,email',
+            'password' => 'required|min:5',
+        ]);
 
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'    => false,
-                    'message'   => 'Validation Failed',
-                    'msgField'  => $validator->errors(),
-                ]);
-            }
-
-            AdminModel::create($request->all());
+        if ($validator->fails()) {
             return response()->json([
-                'status'    => true,
-                'message'   => 'Admin data saved successfully'
+                'status' => false,
+                'message' => 'Validation failed',
+                'msgField' => $validator->errors()
             ]);
         }
-        redirect('/');
+
+        AdminModel::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->role_id,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Admin created successfully'
+        ]);
     }
 
     public function show_ajax(String $id)
@@ -237,7 +239,6 @@ class AdminController extends Controller
                 'status' => false,
                 'message' => 'No valid data found'
             ]);
-
         } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
             return response()->json([
                 'status' => false,
