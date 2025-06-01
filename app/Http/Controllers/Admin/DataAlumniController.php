@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
+
 
 class DataAlumniController extends Controller
 {
-    // DataAlumniController.php
     public function index()
     {
         $breadcrumb = (object)[
@@ -36,25 +37,32 @@ class DataAlumniController extends Controller
 
         return DataTables::of($alumni)
             ->addIndexColumn()
+            ->editColumn('year_graduated', function ($alumni) {
+                // parsing string tanggal YYYY-MM-DD dan format jadi dd/mm/yyyy
+                try {
+                    return Carbon::createFromFormat('Y-m-d', $alumni->year_graduated)->format('d/m/Y');
+                } catch (\Exception $e) {
+                    // kalau format string di DB beda atau error, tampilkan apa adanya
+                    return $alumni->year_graduated;
+                }
+            })
             ->addColumn('aksi', function ($a) {
-                $btn = '<button onclick="modalAction(\'' . url('/admin/data/alumni/' . $a->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/admin/data/alumni/' . $a->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/admin/data/alumni/' . $a->id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button>';
+                $btn = '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button>';
                 return $btn;
             })
             ->rawColumns(['aksi'])
             ->order(function ($query) use ($request) {
                 if ($request->order) {
-                    // Urutan kolom sesuai DataTable (index, prodi, tahun lulus, name, no_hp, email, nim)
-                    $columns = ['id', 'program_study', 'tahun_lulus', 'name', 'no_hp', 'email', 'nim'];
-                    $orderColumn = $columns[$request->order[0]['column']];
-                    $orderDir = $request->order[0]['dir'];
+                    $columns = ['id', 'program_study', 'year_graduated', 'name', 'no_hp', 'email', 'nim'];
+                    $orderColumn = $columns[$request->order[0]['column']] ?? 'id';
+                    $orderDir = $request->order[0]['dir'] ?? 'asc';
                     $query->orderBy($orderColumn, $orderDir);
                 }
             })
             ->make(true);
     }
-
 
 
     public function create_ajax()
@@ -69,7 +77,8 @@ class DataAlumniController extends Controller
             'name' => 'required|min:3',
             'email' => 'required|email|unique:m_alumni,email',
             'nim' => 'required|unique:m_alumni,nim',
-            'tahun_lulus' => 'required|integer',
+            'year_graduated' => 'required|date',
+            'program_study' => 'required|string|min:3',
             'password' => 'required|min:5',
         ]);
 
@@ -85,9 +94,11 @@ class DataAlumniController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'nim' => $request->nim,
-            'tahun_lulus' => $request->tahun_lulus,
+            'year_graduated' => $request->year_graduated,
+            'program_study' => $request->program_study,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id,
+            'role_id' => $request->role_id ?? 2,  // default role alumni = 2
+            'no_hp' => $request->no_hp ?? null,
         ]);
 
         return response()->json([
@@ -98,7 +109,7 @@ class DataAlumniController extends Controller
 
     public function show_ajax($id)
     {
-        $alumni = AlumniModel::find($id);
+        $alumni = AlumniModel::findOrFail($id);
         $roles = RoleModel::all();
 
         return view('admin.dataalumni.show_ajax', compact('alumni', 'roles'));
@@ -106,7 +117,7 @@ class DataAlumniController extends Controller
 
     public function edit_ajax($id)
     {
-        $alumni = AlumniModel::find($id);
+        $alumni = AlumniModel::findOrFail($id);
         $roles = RoleModel::all();
 
         return view('admin.dataalumni.edit_ajax', compact('alumni', 'roles'));
@@ -120,7 +131,8 @@ class DataAlumniController extends Controller
             'name' => 'required|min:3',
             'email' => 'required|email|unique:m_alumni,email,' . $id,
             'nim' => 'required|unique:m_alumni,nim,' . $id,
-            'tahun_lulus' => 'required|integer',
+            'year_graduated' => 'required|integer',
+            'program_study' => 'required|string|min:3',
             'password' => 'nullable|min:5',
         ]);
 
@@ -136,8 +148,10 @@ class DataAlumniController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'nim' => $request->nim,
-            'tahun_lulus' => $request->tahun_lulus,
-            'role_id' => $request->role_id,
+            'year_graduated' => $request->year_graduated,
+            'program_study' => $request->program_study,
+            'role_id' => $request->role_id ?? $alumni->role_id,
+            'no_hp' => $request->no_hp ?? $alumni->no_hp,
             'password' => $request->password ? Hash::make($request->password) : $alumni->password
         ]);
 
@@ -149,7 +163,7 @@ class DataAlumniController extends Controller
 
     public function confirm_ajax($id)
     {
-        $alumni = AlumniModel::find($id);
+        $alumni = AlumniModel::findOrFail($id);
         return view('admin.dataalumni.confirm_ajax', compact('alumni'));
     }
 
