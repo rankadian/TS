@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use App\Models\AdminModel;
 use App\Models\AlumniModel;
@@ -11,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
 
-class AdminController extends Controller
+class DashboardController extends Controller
 {
     public function index()
     {
