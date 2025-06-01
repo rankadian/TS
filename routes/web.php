@@ -44,6 +44,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{id}/update_ajax', [DashboardController::class, 'update_ajax']);
         Route::get('/{id}/delete_ajax', [DashboardController::class, 'confirm_ajax']);
         Route::delete('/{id}/delete_ajax', [DashboardController::class, 'delete_ajax']);
+
+        Route::get('/data-alumni', [DataAlumniController::class, 'index'])->name('admin.dataalumni.index');
+        Route::post('/data-alumni/list', [DataAlumniController::class, 'list'])->name('admin.dataalumni.list');
+
     });
 
      // route for alumni

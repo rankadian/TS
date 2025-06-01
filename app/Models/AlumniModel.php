@@ -14,7 +14,8 @@ class AlumniModel extends Authenticatable
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'tahun_lulus',
+        'program_study',
+        'year_graduated',
         'name',
         'no_hp',
         'email',
@@ -24,6 +25,7 @@ class AlumniModel extends Authenticatable
         'email_verified_at',
         'remember_token',
     ];
+
 
     protected $hidden = [
         'password',
