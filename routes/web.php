@@ -46,13 +46,6 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}/delete_ajax', [DashboardController::class, 'delete_ajax']);
     });
 
-    Route::prefix('alumni')->group(function () {
-        Route::get('/', [DataAlumniController::class, 'index'])->name('admin.data.index');
-        Route::post('/list', [DataAlumniController::class, 'list'])->name('admin.alumni.list');
-        Route::get('/create_ajax', [DataAlumniController::class, 'createAjax'])->name('admin.alumni.create_ajax');
-        // tambah route lain seperti store, edit, update, delete jika perlu
-    });
-
      // route for alumni
     // Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
     //     Route::group(['prefix' => 'alumni'], function () {
