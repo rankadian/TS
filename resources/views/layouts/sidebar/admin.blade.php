@@ -16,7 +16,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 
             <li class="nav-item">
-                <a href="{{ route('admin.index') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard.index') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
@@ -24,7 +24,7 @@
 
             <li class="nav-header">Data</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.data.index') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-upload"></i>
                     <p>Data Almuni</p>
                 </a>

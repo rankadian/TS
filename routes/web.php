@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardContoller;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DataAlumniController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +35,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::middleware(['auth'])->group(function () {
     // route for admin
     Route::middleware(['auth:admin', 'authorize.user:ADM'])->prefix('admin')->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
+        Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
         Route::post('/list', [DashboardController::class, 'list']);
         Route::get('/{id}/show_ajax', [DashboardController::class, 'show_ajax']);
         Route::get('/user/create_ajax', [DashboardController::class, 'create_ajax']);
@@ -44,6 +44,13 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{id}/update_ajax', [DashboardController::class, 'update_ajax']);
         Route::get('/{id}/delete_ajax', [DashboardController::class, 'confirm_ajax']);
         Route::delete('/{id}/delete_ajax', [DashboardController::class, 'delete_ajax']);
+    });
+
+    Route::prefix('alumni')->group(function () {
+        Route::get('/', [DataAlumniController::class, 'index'])->name('admin.data.index');
+        Route::post('/list', [DataAlumniController::class, 'list'])->name('admin.alumni.list');
+        Route::get('/create_ajax', [DataAlumniController::class, 'createAjax'])->name('admin.alumni.create_ajax');
+        // tambah route lain seperti store, edit, update, delete jika perlu
     });
 
      // route for alumni

@@ -10,7 +10,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.index');
+            return redirect()->route('admin.dashboard.index');
         }
 
         if (Auth::guard('alumni')->check()) {
@@ -37,7 +37,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Successful login as admin.',
-                'redirect' => route('admin.index')
+                'redirect' => route('admin.dashboard.index')
             ]);
         }
 
