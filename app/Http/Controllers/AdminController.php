@@ -26,7 +26,7 @@ class AdminController extends Controller
 
         $activeMenu = 'admin';
         $admin = AdminModel::all();
-        return view('admin.index', ['breadcrumb' => $breadcrumb, 'admin' => $admin, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('admin.dashboard.index', ['breadcrumb' => $breadcrumb, 'admin' => $admin, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)
@@ -51,7 +51,7 @@ class AdminController extends Controller
 
     public function create_ajax()
     {
-        return view('admin.create_ajax');
+        return view('admin.dashboard.create_ajax');
     }
 
     public function store_ajax(Request $request)
@@ -88,7 +88,7 @@ class AdminController extends Controller
         $admin = AdminModel::find($id);
         $role = RoleModel::select('role_id', 'role_name')->get();
 
-        return view('admin.show_ajax', compact('admin', 'role'));
+        return view('admin.dashboard.show_ajax', compact('admin', 'role'));
     }
 
     public function edit_ajax(string $id)
@@ -97,7 +97,7 @@ class AdminController extends Controller
         $admin = AdminModel::find($id);
         $role = RoleModel::select('role_id', 'role_name')->get();
 
-        return view('admin.edit_ajax', ['admin' => $admin, 'role' => $role]);
+        return view('admin.dashboard.edit_ajax', ['admin' => $admin, 'role' => $role]);
     }
 
     public function update_ajax(Request $request, $id)
@@ -137,7 +137,7 @@ class AdminController extends Controller
     {
         $admin = AdminModel::find($id);;
 
-        return view('admin.confirm_ajax', ['admin' => $admin]);
+        return view('admin.dashboard.confirm_ajax', ['admin' => $admin]);
     }
 
     public function delete_ajax(Request $request, $id)
@@ -162,7 +162,7 @@ class AdminController extends Controller
 
     public function import()
     {
-        return view('admin.import');
+        return view('admin.dashboard.import');
     }
 
     public function import_ajax(Request $request)

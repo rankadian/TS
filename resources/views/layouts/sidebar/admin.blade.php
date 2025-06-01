@@ -22,11 +22,11 @@
                 </a>
             </li>
 
-            <li class="nav-header">Upload Data</li>
+            <li class="nav-header">Data</li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-upload"></i>
-                    <p>Import Data</p>
+                    <p>Data Almuni</p>
                 </a>
             </li>
 
