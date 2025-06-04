@@ -65,11 +65,11 @@ class DataAlumniController extends Controller
     }
 
 
-    public function create_ajax()
-    {
-        $roles = RoleModel::all();
-        return view('admin.dataalumni.create_ajax', compact('roles'));
-    }
+    // public function create_ajax()
+    // {
+    //     $roles = RoleModel::all();
+    //     return view('admin.dataalumni.create_ajax', compact('roles'));
+    // }
 
     public function store_ajax(Request $request)
     {
