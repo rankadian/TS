@@ -22,8 +22,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Prodi</th>          {{-- kolom Prodi --}}
-                    <th>Tahun Lulus</th>    {{-- kolom Tahun Lulus --}}
+                    <th>Prodi</th>
+                    <th>Tahun Lulus</th>
                     <th>Name</th>
                     <th>No Telpon</th>
                     <th>Email</th>
@@ -60,8 +60,8 @@
             },
             columns: [
                 { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                { data: "program_study", className: "text-center" },      // Prodi
-                { data: "year_graduated", className: "text-center" },    // Tahun Lulus
+                { data: "program_study", className: "text-center" },
+                { data: "year_graduated", className: "text-center" },
                 { data: "name" },
                 { data: "no_hp" },
                 { data: "email" },
