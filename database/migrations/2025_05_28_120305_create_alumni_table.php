@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('program_study')->nullable();
             $table->date('year_graduated')->nullable();
             $table->string('name');
+            $table->string('nim', 20)->unique();
             $table->string('no_hp', 20)->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -23,7 +24,6 @@ return new class extends Migration
             $table->string('password');
 
             $table->unsignedBigInteger('role_id')->nullable();
-            $table->string('nim', 20)->unique();
 
             $table->timestamps();
 

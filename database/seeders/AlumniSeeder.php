@@ -16,16 +16,16 @@ class AlumniSeeder extends Seeder
     {
         $data = [
             [
-                'program_study' => 'Teknik Informatika',
-                'year_graduated' => '29/09/2020',
-                'name' => 'Budi Santoso',
-                'no_hp' => '081234567890',
-                'email' => 'budi.santoso@example.com',
+                'program_study' => 'Sistem Informasi Bisnis',
+                'year_graduated' => '2004-09-29',
+                'name' => 'Evan Diantha Fafian',
+                'nim' => '2341760163',
+                'no_hp' => '087850352168',
+                'email' => '2341760163@student.polinema.ac.id',
                 'email_verified_at' => now(),
-                'password' => Hash::make('password123'),
+                'password' => Hash::make(2341760163),
                 'remember_token' => Str::random(10),
-                'role_id' => 2, // sesuaikan jika ada role_id valid
-                'nim' => '1234567890',
+                'role_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
