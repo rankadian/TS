@@ -31,7 +31,7 @@
 
             <li class="nav-header">Manage</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.profesi.index') }}" class="nav-link {{ $activeMenu == 'profesi' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user-tie"></i>
                     <p>Manage the Profession</p>
                 </a>

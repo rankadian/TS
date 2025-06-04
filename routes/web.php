@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DataAlumniController;
+use App\Http\Controllers\Admin\ProfesiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,17 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/data-alumni/{id}/update_ajax', [DataAlumniController::class, 'update_ajax'])->name('admin.dataalumni.update_ajax');
         Route::get('/data-alumni/{id}/delete_ajax', [DataAlumniController::class, 'confirm_ajax'])->name('admin.dataalumni.confirm_ajax');
         Route::delete('/data-alumni/{id}/delete_ajax', [DataAlumniController::class, 'delete_ajax'])->name('admin.dataalumni.delete_ajax');
+
+        // Profesi Routes
+        Route::get('/profesi', [ProfesiController::class, 'index'])->name('admin.profesi.index');
+        Route::post('/profesi/list', [ProfesiController::class, 'list'])->name('admin.profesi.list');
+        Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax'])->name('admin.profesi.create_ajax');
+
+        Route::get('/profesi/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax'])->name('admin.profesi.edit_ajax');
+        Route::post('/profesi/ajax', [ProfesiController::class, 'store_ajax'])->name('admin.profesi.store_ajax');
+        Route::put('/profesi/{id}/update_ajax', [ProfesiController::class, 'update_ajax'])->name('admin.profesi.update_ajax');
+        Route::get('/profesi/{id}/delete_ajax', [ProfesiController::class, 'confirm_ajax'])->name('admin.profesi.confirm_ajax');
+        Route::delete('/profesi/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('admin.profesi.delete_ajax');
     });
 
     // route for alumni
