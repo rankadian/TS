@@ -60,7 +60,7 @@ $(document).ready(function() {
                             title: 'Success',
                             text: response.message
                         }).then(() => {
-                            location.reload();  // Reload halaman setelah simpan sukses
+                            location.reload();  
                         });
                     } else {
                         $('.error-text').text('');

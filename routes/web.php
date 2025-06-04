@@ -64,7 +64,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/profesi/store_ajax', [ProfesiController::class, 'store_ajax']);
         Route::get('/profesi/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax'])->name('profesi.edit_ajaxt');
         Route::put('/profesi/{id}/update_ajax', [ProfesiController::class, 'updateAjax'])->name('profesi.update_ajax');
-
+        Route::get('/profesi/{id}/confirm_ajax', [ProfesiController::class, 'confirmDeleteAjax'])->name('profesi.confirm_ajax');
+        Route::delete('/profesi/{id}/delete_ajax', [ProfesiController::class, 'deleteAjax'])->name('profesi.delete_ajax');
     });
 
     // route for alumni

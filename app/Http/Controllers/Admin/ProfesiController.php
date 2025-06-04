@@ -39,7 +39,7 @@ class ProfesiController extends Controller
             ->addColumn('aksi', function ($row) {
                 $btn = '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button>';
+                $btn .= '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/confirm_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button>';
                 return $btn;
             })
             ->rawColumns(['aksi'])
@@ -132,5 +132,42 @@ class ProfesiController extends Controller
             'status' => true,
             'message' => 'Data profesi berhasil diperbarui.'
         ]);
+    }
+
+    public function confirmDeleteAjax($id)
+    {
+        $profesi = ProfesiModel::with('category')->find($id);
+
+        if (!$profesi) {
+            return view('admin.profesi.confirm_ajax', ['profesi' => null]);
+        }
+
+        return view('admin.profesi.confirm_ajax', compact('profesi'));
+    }
+
+    public function deleteAjax($id)
+    {
+        $profesi = ProfesiModel::find($id);
+
+        if (!$profesi) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan',
+            ]);
+        }
+
+        try {
+            $profesi->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data profesi berhasil dihapus',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal menghapus data: ' . $e->getMessage(),
+            ]);
+        }
     }
 }

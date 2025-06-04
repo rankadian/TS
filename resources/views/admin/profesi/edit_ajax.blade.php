@@ -83,7 +83,7 @@ $(document).ready(function() {
                             title: 'Sukses',
                             text: response.message
                         }).then(() => {
-                            location.reload(); // Reload halaman setelah simpan sukses
+                            location.reload(); 
                         });
                     } else {
                         $('.error-text').text('');
