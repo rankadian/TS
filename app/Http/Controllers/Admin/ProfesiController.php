@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ProfesiModel;
 use App\Models\CategoryModel;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class ProfesiController extends Controller
 {
@@ -49,5 +50,87 @@ class ProfesiController extends Controller
     {
         $categories = CategoryModel::all();
         return view('admin.profesi.create_ajax', compact('categories'));
+    }
+
+    public function show_ajax($id)
+    {
+        $profesi = ProfesiModel::with('category')->where('id_profesi', $id)->first();
+
+        return view('admin.profesi.show_ajax', compact('profesi'));
+    }
+
+    public function store_ajax(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama_profesi' => 'required|string|min:3|max:100',
+            'category_id' => 'required|exists:category,category_id'
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal!',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        ProfesiModel::create([
+            'nama_profesi' => $request->nama_profesi,
+            'category_id' => $request->category_id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data profesi berhasil disimpan.'
+        ]);
+    }
+
+    public function edit_ajax($id)
+    {
+        $profesi = ProfesiModel::find($id);
+        $categories = CategoryModel::all();
+
+        return view('admin.profesi.edit_ajax', compact('profesi', 'categories'));
+    }
+
+    // Update data profesi via ajax
+    public function updateAjax(Request $request, $id)
+    {
+        // Cari data profesi berdasarkan id
+        $profesi = ProfesiModel::find($id);
+
+        if (!$profesi) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data profesi tidak ditemukan.',
+            ]);
+        }
+
+        // Validasi input
+        $rules = [
+            'nama_profesi' => 'required|string|min:3|max:100',
+            'category_id' => 'required|exists:category,category_id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal.',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        // Update data
+        $profesi->nama_profesi = $request->nama_profesi;
+        $profesi->category_id = $request->category_id;
+        $profesi->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data profesi berhasil diperbarui.'
+        ]);
     }
 }
