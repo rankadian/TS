@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     // route for admin
     Route::middleware(['auth:admin', 'authorize.user:ADM'])->group(function () {
         Route::group(['prefix' => 'admin'], function () {
+            // route for manage alumni data
             Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
             Route::post('/list', [DashboardController::class, 'list']);
             Route::get('/{id}/show_ajax', [DashboardController::class, 'show_ajax']);
@@ -48,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{id}/delete_ajax', [DashboardController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [DashboardController::class, 'delete_ajax']);
 
+            // route for manage alumni data from admin
             Route::get('/data-alumni', [DataAlumniController::class, 'index'])->name('admin.dataalumni.index');
             Route::post('/data-alumni/list', [DataAlumniController::class, 'list'])->name('admin.dataalumni.list');
             // Route::get('/data-alumni/create_ajax', [DataAlumniController::class, 'create_ajax'])->name('admin.dataalumni.create_ajax');
@@ -60,7 +62,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/data-alumni/import', [DataAlumniController::class, 'import'])->name('admin.dataalumni.import');
             Route::post('/data-alumni/import_ajax', [DataAlumniController::class, 'import_ajax'])->name('admin.dataalumni.import_ajax');
 
-            // Profesi Routes
+            // route for manage profession
             Route::get('/profesi', [ProfesiController::class, 'index'])->name('admin.profesi.index');
             Route::post('/profesi/list', [ProfesiController::class, 'list'])->name('admin.profesi.list');
             Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax'])->name('admin.profesi.create_ajax');
