@@ -48,13 +48,15 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/data-alumni', [DataAlumniController::class, 'index'])->name('admin.dataalumni.index');
         Route::post('/data-alumni/list', [DataAlumniController::class, 'list'])->name('admin.dataalumni.list');
-        Route::get('/data-alumni/create_ajax', [DataAlumniController::class, 'create_ajax'])->name('admin.dataalumni.create_ajax');
+        // Route::get('/data-alumni/create_ajax', [DataAlumniController::class, 'create_ajax'])->name('admin.dataalumni.create_ajax');
         Route::post('/data-alumni/ajax', [DataAlumniController::class, 'store_ajax'])->name('admin.dataalumni.store_ajax');
         Route::get('/data-alumni/{id}/show_ajax', [DataAlumniController::class, 'show_ajax'])->name('admin.dataalumni.show_ajax');
         Route::get('/data-alumni/{id}/edit_ajax', [DataAlumniController::class, 'edit_ajax'])->name('admin.dataalumni.edit_ajax');
         Route::put('/data-alumni/{id}/update_ajax', [DataAlumniController::class, 'update_ajax'])->name('admin.dataalumni.update_ajax');
         Route::get('/data-alumni/{id}/delete_ajax', [DataAlumniController::class, 'confirm_ajax'])->name('admin.dataalumni.confirm_ajax');
         Route::delete('/data-alumni/{id}/delete_ajax', [DataAlumniController::class, 'delete_ajax'])->name('admin.dataalumni.delete_ajax');
+        Route::get('/data-alumni/import', [DataAlumniController::class, 'import'])->name('admin.dataalumni.import');
+        Route::post('/data-alumni/import_ajax', [DataAlumniController::class, 'import_ajax'])->name('admin.dataalumni.import_ajax');
 
         // Profesi Routes
         Route::get('/profesi', [ProfesiController::class, 'index'])->name('admin.profesi.index');
