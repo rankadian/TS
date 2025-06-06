@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DataAlumniController;
 use App\Http\Controllers\Admin\ProfesiController;
+use App\Http\Controllers\Alumni\AlumniController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -71,9 +72,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // route for alumni
-    // Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
-    //     Route::group(['prefix' => 'alumni'], function () {
-    //         Route::get('/', [AdminController::class, 'index']);
-    //     });
-    // });
+    Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
+        Route::group(['prefix' => 'alumni'], function () {
+            Route::get('/', [AlumniController::class, 'index'])->name('alumni.dashboard.index');
+        });
+    });
 });
