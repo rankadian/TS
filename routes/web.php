@@ -78,7 +78,7 @@ Route::middleware(['auth'])->group(function () {
     // route for alumni
     Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
         Route::group(['prefix' => 'alumni'], function () {
-            Route::get('/', [AlumniController::class, 'index'])->name('alumni.dahboard.index');
+            Route::get('/', [AlumniController::class, 'index'])->name('alumni.dashboard.index');
             Route::post('/list', [AlumniController::class, 'list']);
             Route::get('/{id}/show_ajax', [AlumniController::class, 'show_ajax']);
             Route::get('/{id}/edit_ajax', [AlumniController::class, 'edit_ajax']);
