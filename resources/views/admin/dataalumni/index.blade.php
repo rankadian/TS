@@ -6,7 +6,7 @@
         <h3 class="card-title">{{ $page->title }}</h3>
 
         <div class="card-tools">
-            <button onclick="modalAction('{{ url('admin/data-alumni/import') }}')" class="btn btn-success">Import Alumni</button>
+            <button onclick="modalAction('{{ url('/admin/data-alumni/import') }}')" class="btn btn-success">Import Alumni</button>
         </div>
     </div>
 
