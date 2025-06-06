@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Login - TSPM</title>
@@ -156,6 +157,12 @@
                         url: form.action,
                         method: form.method,
                         data: $(form).serialize(),
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        xhrFields: {
+                            withCredentials: true
+                        },
                         success: function (response) {
                             if (response.status) {
                                 Swal.fire({
@@ -175,7 +182,7 @@
 
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Login Gagal',
+                                    title: 'Login Failed',
                                     text: response.message
                                 });
                             }
@@ -184,7 +191,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Server Error',
-                                text: 'Terjadi kesalahan pada server.'
+                                text: 'An error occurred on the server.'
                             });
                         }
                     });
@@ -193,5 +200,7 @@
             });
         });
     </script>
+
 </body>
+
 </html>
