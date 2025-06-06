@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
 class DataAlumniController extends Controller
@@ -184,5 +185,90 @@ class DataAlumniController extends Controller
             ]);
         }
         return redirect('/');
+    }
+
+    public function import()
+    {
+        return view('admin.dataalumni.import');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if (!$request->ajax() && !$request->wantsJson()) {
+            return redirect('/');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'file_alumni' => ['required', 'mimes:xlsx', 'max:1024']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi Gagal',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        try {
+            $file = $request->file('file_alumni');
+
+            if (!$file->isValid()) {
+                throw new \Exception('Uploaded file is not valid');
+            }
+
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getPathname());
+
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, false, true, true);
+
+            if (count($data) <= 1) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tidak ada data yang diimport (file kosong atau hanya header)'
+                ]);
+            }
+
+            $insert = [];
+            foreach ($data as $baris => $value) {
+                if ($baris > 1 && !empty($value['B'])) {
+                    $insert[] = [
+                        'alumni_id' => $value['A'],
+                        'program_study' => $value['B'],
+                        'nim' => $value['C'],
+                        'name' => $value['D'],
+                        'email' => $value['E'],
+                        'year_graduated' => $value['F'],
+                        'created_at' => now(),
+                    ];
+                }
+            }
+
+            if (!empty($insert)) {
+                AlumniModel::insertOrIgnore($insert);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data imported successfully',
+                    'count' => count($insert)
+                ]);
+            }
+
+            return response()->json([
+                'status' => false,
+                'message' => 'No valid data found'
+            ]);
+        } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'File reading error: ' . $e->getMessage()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ]);
+        }
     }
 }
