@@ -14,7 +14,7 @@ class AuthController extends Controller
         }
 
         if (Auth::guard('alumni')->check()) {
-            return redirect()->route('alumni.index');
+            return redirect()->route('alumni.dashboard.index');
         }
 
         return view('auth.login');
@@ -46,16 +46,16 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Successful login as an alumnus.',
-                'redirect' => route('alumni.index')
+                'redirect' => route('alumni.dashboard.index')
             ]);
         }
 
         return response()->json([
             'status' => false,
-            'message' => 'Email atau password salah.',
+            'message' => 'Incorrect email or password.',
             'msgField' => [
-                'email' => ['Email tidak ditemukan atau salah'],
-                'password' => ['Password salah']
+                'email' => ['Email not found or incorrect'],
+                'password' => ['Incorrect password']
             ]
         ]);
     }
