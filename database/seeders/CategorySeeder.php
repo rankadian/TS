@@ -19,7 +19,7 @@ class CategorySeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'category_name' => 'non infokom',
+                'category_name' => 'non-infokom',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
