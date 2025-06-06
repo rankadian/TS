@@ -62,12 +62,37 @@
                             orderable: false,
                             searchable: false
                         }, {
+                            data: "name",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        }, {
                             data: "program_study",
                             className: "",
                             orderable: false,
                             searchable: false
                         }, {
                             data: "email",
+                            className: "",
+                            orderable: false,
+                            searchable: false
+                        }, {
+                            data: "nim",
+                            className: "",
+                            orderable: false,
+                            searchable: true
+                        }, {
+                            data: "year_graduated",
+                            className: "",
+                            orderable: false,
+                            searchable: false
+                        }, {
+                            data: "email",
+                            className: "",
+                            orderable: false,
+                            searchable: false
+                        }, {
+                            data: "no_hp",
                             className: "",
                             orderable: false,
                             searchable: false
