@@ -63,8 +63,19 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
-        Auth::guard('alumni')->logout();
+        $guard = Auth::getDefaultDriver(); // fallback ke default ('web')
+
+        // Jika alumni sedang login
+        if (Auth::guard('alumni')->check()) {
+            $guard = 'alumni';
+        }
+
+        // Jika admin sedang login
+        if (Auth::guard('admin')->check()) {
+            $guard = 'admin';
+        }
+
+        Auth::guard($guard)->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

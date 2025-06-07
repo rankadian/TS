@@ -12,14 +12,15 @@ use Illuminate\Support\Facades\Hash;
 
 class AlumniController extends Controller
 {
-     public function index()
+    public function index()
     {
-        $breadcrumb = (object)[
+
+        $breadcrumb = (object) [
             'title' => 'Welcome to Tracer Study POLINEMA',
             'list' => ['Home', 'Welcome']
         ];
 
-        $page = (object)[
+        $page = (object) [
             'title' => 'List of alumni registered in the system'
         ];
 
@@ -49,7 +50,7 @@ class AlumniController extends Controller
             ->make(true);
     }
 
-    public function show_ajax(String $id)
+    public function show_ajax(string $id)
     {
         $alumni = AlumniModel::find($id);
         $role = RoleModel::select('role_id', 'role_name')->get();
@@ -66,7 +67,7 @@ class AlumniController extends Controller
         return view('alumni.dashboard.edit_ajax', ['alumni' => $alumni, 'role' => $role]);
     }
 
-     public function update_ajax(Request $request, $id)
+    public function update_ajax(Request $request, $id)
     {
         $alumni = AlumniModel::findOrFail($id);
 
