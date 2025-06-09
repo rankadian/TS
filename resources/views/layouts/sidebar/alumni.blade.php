@@ -38,22 +38,6 @@
                     <i class="nav-icon fas fa-user-tie"></i>
                     <p>Manage the Profession</p>
                 </a>
-            </li>
-
-            <li class="nav-header">Show Data</li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-chart-bar"></i>
-                    <p>Graphic</p>
-                </a>
-            </li>
-
-            <li class="nav-header">Report Data</li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-file-export"></i>
-                    <p>Ekspor Data</p>
-                </a>
             </li> --}}
 
             <li class="nav-header">Logout</li>
