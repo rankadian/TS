@@ -205,7 +205,7 @@ class DataAlumniController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validasi Gagal',
+                'message' => 'Validation Failed',
                 'msgField' => $validator->errors()
             ]);
         }
@@ -222,25 +222,40 @@ class DataAlumniController extends Controller
             $spreadsheet = $reader->load($file->getPathname());
 
             $sheet = $spreadsheet->getActiveSheet();
-            $data = $sheet->toArray(null, false, true, true);
+            $data = $sheet->toArray(null, false, true, true); // with column letters (A, B, ...)
 
             if (count($data) <= 1) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Tidak ada data yang diimport (file kosong atau hanya header)'
+                    'message' => 'Empty file or header only'
                 ]);
             }
 
             $insert = [];
+
             foreach ($data as $baris => $value) {
-                if ($baris > 1 && !empty($value['B'])) {
+                if ($baris > 1 && !empty($value['B']) && !empty($value['E'])) {
+                    $email = (string) $value['E'];
+
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        continue;
+                    }
+
+                    try {
+                        $datePassed = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value['D'])->format('Y-m-d');
+                    } catch (\Exception $e) {
+                        $datePassed = null;
+                    }
+
+                    $nim = (string) $value['B'];
+
                     $insert[] = [
-                        'alumni_id' => $value['A'],
-                        'program_study' => $value['B'],
-                        'nim' => $value['C'],
-                        'name' => $value['D'],
-                        'email' => $value['E'],
-                        'year_graduated' => $value['F'],
+                        'program_study' => (string) $value['A'],
+                        'nim' => $nim,
+                        'name' => (string) $value['C'],
+                        'year_graduated' => $datePassed,
+                        'email' => $email,
+                        'password' => bcrypt(substr($nim, 0, 10)), // default password = NIM
                         'created_at' => now(),
                     ];
                 }
@@ -248,6 +263,7 @@ class DataAlumniController extends Controller
 
             if (!empty($insert)) {
                 AlumniModel::insertOrIgnore($insert);
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Data imported successfully',
@@ -262,12 +278,12 @@ class DataAlumniController extends Controller
         } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'File reading error: ' . $e->getMessage()
+                'message' => 'Excel file reading error: ' . $e->getMessage()
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Error: ' . $e->getMessage()
+                'message' => 'Error occurred: ' . $e->getMessage()
             ]);
         }
     }
