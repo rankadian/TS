@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class AlumniController extends Controller
 {
@@ -31,22 +32,31 @@ class AlumniController extends Controller
 
     public function list(Request $request)
     {
-        $alumnis = AlumniModel::select('alumni_id', 'program_study', 'year_graduated', 'name', 'no_hp', 'email');
+        $alumni = AlumniModel::select('id', 'program_study', 'year_graduated', 'name', 'no_hp', 'email', 'nim');
 
-        if ($request->filled('level_id')) {
-            $alumnis->where('level_id', $request->level_id);
-        }
-
-        return DataTables::of($alumnis)
+        return DataTables::of($alumni)
             ->addIndexColumn()
-            ->addColumn('aksi', function ($alumni) {
-                $btn = '<button onclick="modalAction(\'' . url('/alumni/' . $alumni->alumni_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn = '<button onclick="modalAction(\'' . url('/alumni/' . $alumni->alumni_id . '/edit_ajax') . '\')" class="btn btn-info btn-sm">Edit Data</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/alumni/' . $alumni->alumni_id . '/tracer_study') . '\')" class="btn btn-warning btn-sm">Fill Tracer</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/alumni/' . $alumni->alumni_id . '/survey') . '\')" class="btn btn-danger btn-sm">Fill Survey</button> ';
-                return $btn;
+            ->editColumn('year_graduated', function ($alumni) {
+                try {
+                    return Carbon::createFromFormat('Y-m-d', $alumni->year_graduated)->format('d/m/Y');
+                } catch (\Exception $e) {
+                    return $alumni->year_graduated;
+                }
+            })
+            ->addColumn('aksi', function ($a) {
+                $btn = '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                
             })
             ->rawColumns(['aksi'])
+            ->order(function ($query) use ($request) {
+                if ($request->order) {
+                    $columns = ['id', 'program_study', 'year_graduated', 'name', 'no_hp', 'email', 'nim'];
+                    $orderColumn = $columns[$request->order[0]['column']] ?? 'id';
+                    $orderDir = $request->order[0]['dir'] ?? 'asc';
+                    $query->orderBy($orderColumn, $orderDir);
+                }
+            })
             ->make(true);
     }
 
@@ -104,5 +114,4 @@ class AlumniController extends Controller
             'message' => 'Alumni data updated successfully'
         ]);
     }
-
 }
