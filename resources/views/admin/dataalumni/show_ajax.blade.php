@@ -34,19 +34,19 @@
 
                 <table class="table table-sm table-bordered table-striped">
                     <tr>
-                        <th class="text-right col-4">Program Studi:</th>
+                        <th class="text-right col-4">Study Program:</th>
                         <td class="col-8">{{ $alumni->program_study }}</td>
                     </tr>
                     <tr>
-                        <th class="text-right col-4">Tanggal Lulus:</th>
+                        <th class="text-right col-4">Date Passed:</th>
                         <td class="col-8">{{ \Carbon\Carbon::parse($alumni->year_graduated)->format('d M Y') }}</td>
                     </tr>
                     <tr>
-                        <th class="text-right col-4">Nama:</th>
+                        <th class="text-right col-4">Name:</th>
                         <td class="col-8">{{ $alumni->name }}</td>
                     </tr>
                     <tr>
-                        <th class="text-right col-4">No Telpon:</th>
+                        <th class="text-right col-4">Phone Number:</th>
                         <td class="col-8">{{ $alumni->no_hp }}</td>
                     </tr>
                     <tr>

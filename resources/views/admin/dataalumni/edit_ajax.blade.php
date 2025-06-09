@@ -29,49 +29,50 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{-- Program Studi --}}
+                    
                     <div class="form-group">
-                        <label>Program Studi</label>
+                        <label>Study Program</label>
                         <input type="text" name="program_study" id="program_study" class="form-control" value="{{ $alumni->program_study }}" required>
                         <small id="error-program_study" class="error-text form-text text-danger"></small>
                     </div>
-                    {{-- Tanggal Lulus --}}
+                    
                     <div class="form-group">
-                        <label>Tanggal Lulus</label>
+                        <label>Date Passed</label>
                         <input type="date" name="year_graduated" id="year_graduated" class="form-control" value="{{ $alumni->year_graduated }}" required>
                         <small id="error-year_graduated" class="error-text form-text text-danger"></small>
                     </div>
-                    {{-- Nama --}}
+                    
                     <div class="form-group">
-                        <label>Nama</label>
+                        <label>Name</label>
                         <input type="text" name="name" id="name" class="form-control" value="{{ $alumni->name }}" required>
                         <small id="error-name" class="error-text form-text text-danger"></small>
                     </div>
-                    {{-- No Telpon --}}
+                    
                     <div class="form-group">
-                        <label>No Telpon</label>
+                        <label>Phone Number</label>
                         <input type="text" name="no_hp" id="no_hp" class="form-control" value="{{ $alumni->no_hp }}" required>
                         <small id="error-no_hp" class="error-text form-text text-danger"></small>
                     </div>
-                    {{-- Email --}}
+                    
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="email" id="email" class="form-control" value="{{ $alumni->email }}" required>
                         <small id="error-email" class="error-text form-text text-danger"></small>
                     </div>
-                    {{-- NIM --}}
+                    
                     <div class="form-group">
                         <label>NIM</label>
                         <input type="text" name="nim" id="nim" class="form-control" value="{{ $alumni->nim }}" required>
                         <small id="error-nim" class="error-text form-text text-danger"></small>
                     </div>
-                    {{-- Password --}}
+                    
                     <div class="form-group">
                         <label>Password</label>
                         <input type="password" name="password" id="password" class="form-control">
                         <small class="form-text text-muted">Ignore if you don't want to change the password</small>
                         <small id="error-password" class="error-text form-text text-danger"></small>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Cancel</button>
