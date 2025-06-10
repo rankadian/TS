@@ -20,13 +20,13 @@ return new class extends Migration
                 ->references('id')->on('m_alumni')
                 ->onDelete('cascade');
 
-            $table->date('tanggal_pertama_kerja')->nullable();
-            $table->date('tanggal_mulai_instansi')->nullable();
-            $table->string('jenis_instansi', 100)->nullable();
-            $table->string('nama_instansi', 150)->nullable();
-            $table->string('skala', 100)->nullable();
-            $table->string('lokasi_instansi', 150)->nullable();
-            $table->string('kategori_profesi', 100)->nullable();
+            $table->date('date_first_work')->nullable();
+            $table->date('agency_start_date')->nullable();
+            $table->string('type_agency', 100)->nullable();
+            $table->string('agency_name', 150)->nullable();
+            $table->string('scale', 100)->nullable();
+            $table->string('location_agency', 150)->nullable();
+            $table->string('category_profession', 100)->nullable();
 
             // Foreign key ke profesi
             $table->unsignedBigInteger('profesi_id')->nullable();
@@ -34,10 +34,10 @@ return new class extends Migration
                 ->references('id_profesi')->on('profesi')
                 ->onDelete('set null');
 
-            $table->string('nama_atasan_langsung', 100)->nullable();
-            $table->string('jabatan_atasan_langsung', 100)->nullable();
-            $table->string('no_hp_atasan', 20)->nullable();
-            $table->string('email_atasan', 100)->nullable();
+            $table->string('name_direct_superior', 100)->nullable();
+            $table->string('position_direct_superior', 100)->nullable();
+            $table->string('no_hp_superior', 20)->nullable();
+            $table->string('email_superior', 100)->nullable();
 
             $table->timestamps();
         });
