@@ -46,7 +46,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Successful login as an alumnus.',
-                'redirect' => route('alumni.dashboard.index')
+                'redirect' => route('alumni.dashboard.welcome')
             ]);
         }
 

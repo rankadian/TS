@@ -10,6 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Fluent;
 
 class AlumniController extends Controller
 {
@@ -114,4 +115,17 @@ class AlumniController extends Controller
             'message' => 'Alumni data updated successfully'
         ]);
     }
+
+   public function dashboard_welcome()
+{
+    return view('alumni.dashboard.welcome', [
+        'activeMenu' => 'dashboard',
+        'breadcrumb' => new Fluent([
+            'title' => 'Dashboard',
+            'list' => ['Home', 'Dashboard'],
+        ]),
+    ]);
 }
+}
+
+
