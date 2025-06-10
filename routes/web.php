@@ -74,27 +74,22 @@ Route::middleware(['auth:admin', 'authorize.user:ADM'])->group(function () {
     });
 });
 
-    // route for alumni
+// route for alumni
 Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
     Route::group(['prefix' => 'alumni'], function () {
         Route::get('/', [AlumniController::class, 'index'])->name('alumni.dashboard.index');
         Route::get('/dashboard', [AlumniController::class, 'dashboard_welcome'])->name('alumni.dashboard.welcome');
         Route::post('/list', [AlumniController::class, 'list']);
-        Route::get('/{id}/show_ajax', [AlumniController::class, 'show_ajax']);
-        Route::get('/{id}/edit_ajax', [AlumniController::class, 'edit_ajax']);
+        Route::get('/{id}/show_ajax', [AlumniController::class, 'alumni.dashboard.show_ajax']);
+        Route::get('/{id}/edit_ajax', [AlumniController::class, 'alumni.dashboard.edit_ajax']);
         Route::put('/{id}/update_ajax', [AlumniController::class, 'update_ajax']);
+
+        // route tracer
+        Route::get('/tracer', [TracerController::class, 'index'])->name('alumni.tracer.index');
+        Route::get('/tracer/edit-ajax/{id}', [TracerController::class, 'edit_ajax'])->name('alumni.tracer.edit_ajax');
+        Route::get('/tracer/confirm-ajax/{id}', [TracerController::class, 'confirm_ajax'])->name('confirm_ajax');
+        Route::get('/tracer/show-ajax/{id}', [TracerController::class, 'show_ajax'])->name('alumni.tracer.show_ajax');
+        Route::post('/tracer/store-ajax', [TracerController::class, 'store_ajax'])->name('store_ajax');
+        Route::post('/tracer/update-ajax/{id}', [TracerController::class, 'update_ajax'])->name('update_ajax');
     });
 });
-
-// Alumni Tracer
-Route::middleware(['auth:alumni', 'authorize.user:AMI'])->prefix('alumni/tracer')->name('alumni.tracer.')->group(function () {
-    Route::get('/', [TracerController::class, 'index'])->name('index');
-    Route::get('/edit-ajax/{id}', [TracerController::class, 'edit_ajax'])->name('edit_ajax');
-    Route::get('/confirm-ajax/{id}', [TracerController::class, 'confirm_ajax'])->name('confirm_ajax');
-    Route::get('/show-ajax/{id}', [TracerController::class, 'show_ajax'])->name('show_ajax');
-    Route::post('/store-ajax', [TracerController::class, 'store_ajax'])->name('store_ajax');
-    Route::post('/update-ajax/{id}', [TracerController::class, 'update_ajax'])->name('update_ajax');
-});
-
-
-
