@@ -9,18 +9,21 @@
             </div>
         @endif
 
-        <div class="card shadow border-0 mb-4">
-            <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">
-                    <i class="fas fa-graduation-cap me-2"></i>
-                    @if ($data) Data Tracer Study @else Form Tracer Study @endif
-                </h4>
-                @if($data)
-                    <button class="btn btn-light btn-sm" onclick="editTracer({{ $data->id }})">
-                        <i class="fas fa-edit me-1"></i> Edit
-                    </button>
-                @endif
-            </div>
+        <div class="card-header bg-primary text-white py-3 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+        <h4 class="mb-0">
+            <i class="fas fa-graduation-cap me-2"></i>
+            @if ($data) Data Tracer Study @else Form Tracer Study @endif
+        </h4>
+    </div>
+    @if($data)
+        <div>
+            <button class="btn btn-light btn-sm" onclick="editTracer({{ $data->id }})">
+                <i class="fas fa-edit me-1"></i> Edit
+            </button>
+        </div>
+    @endif
+</div>
 
             <div class="card-body p-4">
                 @if ($data)
@@ -30,31 +33,33 @@
                     </div>
 
                     <div class="table-responsive-lg">
-                        <table class="table table-bordered table-hover mb-0">
-                            <tbody>
-                                <tr class="table-primary">
-                                    <th colspan="2" class="text-center">ALUMNUS DATA</th>
-                                </tr>
-                                <tr>
-                                    <th width="30%">Study Program</th>
-                                    <td>{{ $data->program_study }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Year Graduated</th>
-                                    <td>{{ $data->year_graduated }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Name (NIM)</th>
-                                    <td>{{ $data->name }} ({{ $data->nim }})</td>
-                                </tr>
-                                <tr>
-                                    <th>No HP</th>
-                                    <td>{{ $data->no_hp }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Email</th>
-                                    <td>{{ $data->email }}</td>
-                                </tr>
+    <table class="table table-bordered table-hover mb-0">
+        <tbody>
+            <tr class="table-primary">
+                <th colspan="2" class="text-center">ALUMNUS DATA</th>
+            </tr>
+            <tr>
+                <th width="30%">Study Program</th>
+                <td>{{ $data->alumni->program_study ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Year Graduated</th>
+                <td>{{ $data->alumni->year_graduated ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Name (NIM)</th>
+                <td>{{ $data->alumni->name ?? '-' }} ({{ $data->alumni->nim ?? '-' }})</td>
+            </tr>
+            <tr>
+                <th>No HP</th>
+                <td>{{ $data->alumni->no_hp ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ $data->alumni->email ?? '-' }}</td>
+            </tr>
+      
+
 
                                 <tr class="table-primary">
                                     <th colspan="2" class="text-center">DATA PEKERJAAN</th>
@@ -128,7 +133,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">NIM <span class="text-danger">*</span></label>
                                         <select class="form-select select2-nim" name="nim" id="nimSelect" required>
-                                            <option value="">Pilih NIM atau ketik untuk mencari</option>
+                                            <option value="">Choose Your NIM or Look for it</option>
                                             @foreach($alumniList as $alumni)
                                                 <option value="{{ $alumni->nim }}" data-nama="{{ $alumni->name }}"
                                                     data-program-studi="{{ $alumni->program_study }}"
@@ -180,14 +185,13 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Profession Category<span class="text-danger">*</span></label>
-                                        <select class="form-select" name="kategori_profesi" id="kategoriProfesi" required>
-                                            <option value="">Select Profession Categoryx`</option>
-                                            @foreach($categories as $category)
-                                                <option value="{{ $category->category_name }}">
-                                                    {{ ucfirst($category->category_name) }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <select class="form-select" name="category_profession" id="kategoriProfesi" required>
+    <option value="" disabled selected hidden>-- Select Profession Category --</option>
+    @foreach($categories as $category)
+        <option value="{{ $category->category_name }}">{{ ucfirst($category->category_name) }}</option>
+    @endforeach
+</select>
+
                                     </div>
 
                                     <div class="mb-3">
@@ -373,76 +377,185 @@
             background-color: #f8f9fa;
             border-color: #f8f9fa;
         }
+
+        .select2-container {
+    width: 100% !important;
+    display: block;
+}
+
+.select2-container--default .select2-selection--single {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 36px;
+    padding-left: 0;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+    right: 8px;
+}
+
+.select2-dropdown {
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Ensure all form controls have consistent spacing */
+.form-select, .select2-container--default .select2-selection--single {
+    margin-top: 0.25rem;
+}
+
+.card-header {
+    position: relative;
+}
+
+.card-header .btn {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+}
+
     </style>
 @endpush
 
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.select2-nim').select2({
-                placeholder: "Select NIM or Type to Search",
-                allowClear: true,
-                templateResult: formatNimOption,
-                templateSelection: formatNimSelection
-            });
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // =================== Select2: NIM ===================
+        $('.select2-nim').select2({
+            placeholder: "Select NIM or Type to Search",
+            allowClear: true,
+            templateResult: formatNimOption,
+            templateSelection: formatNimSelection
+        });
 
-            function formatNimOption(option) {
-                if (!option.id) return option.text;
-                return $('<span>').text(option.text.split(' - ')[0]); // Show only NIM
+        function formatNimOption(option) {
+            if (!option.id) return option.text;
+            return $('<span>').text(option.text.split(' - ')[0]);
+        }
+
+        function formatNimSelection(option) {
+            if (!option.id) return option.text;
+            return $('<span>').text(option.text.split(' - ')[0]);
+        }
+
+        $('#nimSelect').on('change', function () {
+            const selectedOption = $(this).find('option:selected');
+            $('#namaInput').val(selectedOption.data('nama'));
+            $('#programStudiInput').val(selectedOption.data('program-studi'));
+            $('#tahunLulusInput').val(selectedOption.data('year_graduated'));
+            $('#noHpInput').val(selectedOption.data('no_hp'));
+            $('#emailInput').val(selectedOption.data('email'));
+        });
+
+        // =================== Select2: Kategori Profesi ===================
+        $('#kategoriProfesi').select2({
+            placeholder: "Choose the Profession Category",
+            allowClear: true
+        });
+
+        $('.select2-profesi').select2({
+            placeholder: "Choose a Profession",
+            allowClear: true
+        });
+
+        const originalProfesiOptions = $('#profesiSelect').html();
+
+        $('#kategoriProfesi').on('change', function () {
+            const selectedCategory = $(this).val();
+            const profesiSelect = $('#profesiSelect');
+            profesiSelect.html(originalProfesiOptions);
+
+            if (!selectedCategory) {
+                profesiSelect.val(null).trigger('change');
+                return;
             }
 
-            function formatNimSelection(option) {
-                if (!option.id) return option.text;
-                return $('<span>').text(option.text.split(' - ')[0]); // Show only NIM
-            }
-
-            $('#nimSelect').on('change', function () {
-                const selectedOption = $(this).find('option:selected');
-                const nama = selectedOption.data('nama');
-                const programStudi = selectedOption.data('program-studi');
-                const tahunLulus = selectedOption.data('year_graduated');
-                const noHp = selectedOption.data('no_hp');
-                const email = selectedOption.data('email');
-
-                $('#namaInput').val(nama);
-                $('#programStudiInput').val(programStudi);
-                $('#tahunLulusInput').val(tahunLulus);
-                $('#noHpInput').val(noHp);
-                $('#emailInput').val(email);
-            });
-
-            $('.select2-profesi').select2({
-                placeholder: "Choose a Profession",
-                allowClear: true
-            });
-
-            $('#kategoriProfesi').on('change', function () {
-                const selectedCategory = $(this).val();
-                $('#profesiSelect').val(null).trigger('change');
-
-                if (selectedCategory === 'infokom') {
-                    $('#profesiSelect option').each(function () {
-                        $(this).toggle($(this).data('category') == 1);
-                    });
-                } else if (selectedCategory === 'non-infokom') {
-                    $('#profesiSelect option').each(function () {
-                        $(this).toggle($(this).data('category') == 2);
-                    });
-                } else {
-                    $('#profesiSelect option').show();
+            const categoryId = selectedCategory === 'infokom' ? 1 : 2;
+            profesiSelect.find('option').each(function () {
+                if ($(this).data('category') != categoryId && $(this).val() !== '') {
+                    $(this).remove();
                 }
             });
 
-            $('#kategoriProfesi').trigger('change');
+            profesiSelect.trigger('change.select2');
+        }).trigger('change');
+
+        // =================== Form Submit via AJAX ===================
+        $('#tracerForm').on('submit', function (e) {
+            e.preventDefault();
+
+            const form = $(this);
+            const url = form.attr('action');
+            const formData = new FormData(this);
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: res.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: res.message || 'Terjadi kesalahan'
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let pesan = '';
+                        for (let field in errors) {
+                            pesan += errors[field].join(', ') + '\n';
+                        }
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Validasi Gagal',
+                            text: pesan
+                        });
+                    } else if (xhr.status === 403) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Sudah Pernah Submit',
+                            text: xhr.responseJSON.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Gagal mengirim data. Coba lagi.'
+                        });
+                    }
+                }
+            });
         });
 
-        function editTracer(id) {
-            $.get(`/alumni/tracer/${id}/edit-ajax`, function (res) {
+        // =================== Modal Edit ===================
+        window.editTracer = function (id) {
+            $.get(`/alumni/tracer/edit-ajax/${id}`, function (res) {
                 $('#editModalContent').html(res);
                 $('#editModal').modal('show');
 
-                // Reinitialize Select2 in modal
                 $('.select2-nim').select2({
                     placeholder: "Select NIM",
                     allowClear: true,
@@ -452,24 +565,25 @@
 
                 $('.select2-profesi').select2();
 
-                // Reattach kategori profesi filter
                 $('#kategoriProfesi').on('change', function () {
                     const selectedCategory = $(this).val();
-                    $('#profesiSelect').val(null).trigger('change');
+                    const profesiSelect = $('#profesiSelect');
+
+                    profesiSelect.val(null).trigger('change');
+                    profesiSelect.find('option').prop('disabled', true).hide();
 
                     if (selectedCategory === 'infokom') {
-                        $('#profesiSelect option').each(function () {
-                            $(this).toggle($(this).data('category') == 1);
-                        });
+                        profesiSelect.find('option[data-category="1"]').prop('disabled', false).show();
                     } else if (selectedCategory === 'non-infokom') {
-                        $('#profesiSelect option').each(function () {
-                            $(this).toggle($(this).data('category') == 2);
-                        });
+                        profesiSelect.find('option[data-category="2"]').prop('disabled', false).show();
                     } else {
-                        $('#profesiSelect option').show();
+                        profesiSelect.find('option').prop('disabled', false).show();
                     }
+
+                    profesiSelect.trigger('change.select2');
                 }).trigger('change');
             });
         }
-    </script>
+    });
+</script>
 @endpush

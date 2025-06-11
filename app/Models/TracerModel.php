@@ -12,20 +12,20 @@ class TracerModel extends Model
     protected $table = 'tracer';
 
     protected $fillable = [
-        'alumni_id',
-        'tanggal_pertama_kerja',
-        'tanggal_mulai_instansi',
-        'jenis_instansi',
-        'nama_instansi',
-        'skala',
-        'lokasi_instansi',
-        'kategori_profesi',
-        'profesi_id',
-        'nama_atasan_langsung',
-        'jabatan_atasan_langsung',
-        'no_hp_atasan',
-        'email_atasan',
-    ];
+    'alumni_id',
+    'date_first_work',
+    'agency_start_date',
+    'type_agency',
+    'agency_name',
+    'scale',
+    'location_agency',
+    'category_profession',
+    'profesi_id',
+    'name_direct_superior',
+    'position_direct_superior',
+    'no_hp_superior',
+    'email_superior'
+];
 
     // Relasi ke tabel alumni
     public function alumni()

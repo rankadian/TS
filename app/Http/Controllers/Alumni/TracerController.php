@@ -9,33 +9,31 @@ use App\Models\ProfesiModel;
 use App\Models\TracerModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Fluent;
 
 class TracerController extends Controller
 {
     public function index()
-{
-    $data = TracerModel::where('alumni_id', auth()->id())->first();
-    $alumniList = AlumniModel::select('nim', 'name', 'program_study', 'no_hp', 'email', 'year_graduated')->get();
-    $categories = CategoryModel::all();
-    $professions = ProfesiModel::all();
+    {
+        $data = TracerModel::with('alumni')->where('alumni_id', auth()->id())->first();
+        $alumniList = AlumniModel::select('nim', 'name', 'program_study', 'no_hp', 'email', 'year_graduated')->get();
+        $categories = CategoryModel::all();
+        $professions = ProfesiModel::all();
 
-    $breadcrumb = (object)[
-        'title' => 'Tracer Alumni',
-        'list' => ['Home', 'Tracer']
-    ];
+        $breadcrumb = (object)[
+            'title' => 'Tracer Alumni',
+            'list' => ['Home', 'Tracer']
+        ];
 
-    return view('alumni.tracer.index', [
-        'activeMenu' => 'tracer',
-        'data' => $data,
-        'alumniList' => $alumniList,
-        'categories' => $categories,
-        'professions' => $professions,
-        'isSubmitted' => !is_null($data),
-        'breadcrumb' => $breadcrumb
-    ]);
-}
-
+        return view('alumni.tracer.index', [
+            'activeMenu' => 'tracer',
+            'data' => $data,
+            'alumniList' => $alumniList,
+            'categories' => $categories,
+            'professions' => $professions,
+            'isSubmitted' => !is_null($data),
+            'breadcrumb' => $breadcrumb
+        ]);
+    }
 
     public function store_ajax(Request $request)
     {
@@ -50,18 +48,18 @@ class TracerController extends Controller
 
         // Validasi input
         $validator = Validator::make($request->all(), [
-            'tanggal_pertama_kerja' => 'required|date',
-            'tanggal_mulai_instansi' => 'required|date',
-            'jenis_instansi' => 'required|string|max:100',
-            'nama_instansi' => 'required|string|max:150',
-            'skala' => 'required|string|max:100',
-            'lokasi_instansi' => 'required|string|max:150',
-            'kategori_profesi' => 'required|string|max:100',
+            'date_first_work' => 'required|date',
+            'agency_start_date' => 'required|date',
+            'type_agency' => 'required|string|max:100',
+            'agency_name' => 'required|string|max:150',
+            'scale' => 'required|string|max:100',
+            'location_agency' => 'required|string|max:150',
+            'category_profession' => 'required|string|max:100',
             'profesi_id' => 'nullable|exists:profesi,id_profesi',
-            'nama_atasan_langsung' => 'required|string|max:100',
-            'jabatan_atasan_langsung' => 'required|string|max:100',
-            'no_hp_atasan' => 'required|string|max:20',
-            'email_atasan' => 'required|email|max:100',
+            'name_direct_superior' => 'required|string|max:100',
+            'position_direct_superior' => 'required|string|max:100',
+            'no_hp_superior' => 'required|string|max:20',
+            'email_superior' => 'required|email|max:100',
         ]);
 
         if ($validator->fails()) {
@@ -71,7 +69,21 @@ class TracerController extends Controller
             ], 422);
         }
 
-        $data = $request->all();
+        $data = $request->only([
+            'date_first_work',
+            'agency_start_date',
+            'type_agency',
+            'agency_name',
+            'scale',
+            'location_agency',
+            'category_profession',
+            'profesi_id',
+            'name_direct_superior',
+            'position_direct_superior',
+            'no_hp_superior',
+            'email_superior',
+        ]);
+
         $data['alumni_id'] = auth()->id();
 
         $tracer = TracerModel::create($data);
@@ -84,28 +96,32 @@ class TracerController extends Controller
     }
 
     public function edit_ajax($id)
-    {
-        $data = TracerModel::findOrFail($id);
-        return view('alumni.tracer.edit_ajax', compact('data'));
-    }
+{
+    $data = TracerModel::findOrFail($id);
+    $categories = CategoryModel::all();
+    $professions = ProfesiModel::all();
+
+    return view('alumni.tracer.edit_ajax', compact('data', 'categories', 'professions'));
+}
+
 
     public function update_ajax(Request $request, $id)
     {
         $tracer = TracerModel::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'tanggal_pertama_kerja' => 'required|date',
-            'tanggal_mulai_instansi' => 'required|date',
-            'jenis_instansi' => 'required|string|max:100',
-            'nama_instansi' => 'required|string|max:150',
-            'skala' => 'required|string|max:100',
-            'lokasi_instansi' => 'required|string|max:150',
-            'kategori_profesi' => 'required|string|max:100',
+            'date_first_work' => 'required|date',
+            'agency_start_date' => 'required|date',
+            'type_agency' => 'required|string|max:100',
+            'agency_name' => 'required|string|max:150',
+            'scale' => 'required|string|max:100',
+            'location_agency' => 'required|string|max:150',
+            'category_profession' => 'required|string|max:100',
             'profesi_id' => 'nullable|exists:profesi,id_profesi',
-            'nama_atasan_langsung' => 'required|string|max:100',
-            'jabatan_atasan_langsung' => 'required|string|max:100',
-            'no_hp_atasan' => 'required|string|max:20',
-            'email_atasan' => 'required|email|max:100',
+            'name_direct_superior' => 'required|string|max:100',
+            'position_direct_superior' => 'required|string|max:100',
+            'no_hp_superior' => 'required|string|max:20',
+            'email_superior' => 'required|email|max:100',
         ]);
 
         if ($validator->fails()) {
@@ -115,7 +131,22 @@ class TracerController extends Controller
             ], 422);
         }
 
-        $tracer->update($request->all());
+        $data = $request->only([
+            'date_first_work',
+            'agency_start_date',
+            'type_agency',
+            'agency_name',
+            'scale',
+            'location_agency',
+            'category_profession',
+            'profesi_id',
+            'name_direct_superior',
+            'position_direct_superior',
+            'no_hp_superior',
+            'email_superior',
+        ]);
+
+        $tracer->update($data);
 
         return response()->json([
             'status' => true,
@@ -131,6 +162,4 @@ class TracerController extends Controller
             'data' => $data
         ]);
     }
-
-
 }
