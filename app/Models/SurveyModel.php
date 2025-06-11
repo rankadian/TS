@@ -24,13 +24,16 @@ class SurveyModel extends Model
         'curriculum_suggestions'
     ];
 
-    public function alumni()
-    {
+    public function alumni(){
         return $this->belongsTo(AlumniModel::class);
     }
 
-    public function tracer()
-    {
-        return $this->belongsTo(TracerModel::class, 'alumni_id', 'alumni_id');
+    public function tracer(){
+        return $this->hasOne(TracerModel::class, 'alumni_id');
     }
+
+    public function profesi(){
+        return $this->belongsTo(ProfesiModel::class, 'profesi_id', 'id_profesi');
+    }
+
 }
