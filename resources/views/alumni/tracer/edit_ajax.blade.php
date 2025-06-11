@@ -1,7 +1,7 @@
 <form id="editTracerForm" onsubmit="submitEditTracer(event)">
     @csrf
-    @method('PUT')
-
+    {{-- HAPUS spoof method PUT karena kita akan pakai POST asli --}}
+    
     <div class="modal-header">
         <h5 class="modal-title">Edit Alumni Tracer</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -60,7 +60,6 @@
 </form>
 
 <script>
-    // Initialize Select2
     $('#kategoriProfesi').select2({
         placeholder: "Choose the Profession Category",
         allowClear: true
@@ -99,18 +98,16 @@
         const form = $('#editTracerForm');
         const url = `/alumni/tracer/update-ajax/{{ $data->id }}`;
         const formData = new FormData(form[0]);
- 
-         formData.append('_method', 'PUT');
 
-    $.ajax({
-        url: url,
-        type: 'POST', // Tetap POST karena kita override pakai _method
-        data: formData,
-        processData: false,
-        contentType: false,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
+        $.ajax({
+            url: url,
+            type: 'POST', // method POST asli
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             success: function (res) {
                 if (res.status) {
                     Swal.fire({
