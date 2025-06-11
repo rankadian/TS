@@ -64,7 +64,7 @@
                             </tr>
                             <tr>
                                 <th>Profession</th>
-                                <td>{{ $survey->tracer->profesi->profesi_id ?? '-' }}</td>
+                                <td>{{ $survey->tracer->profesi->nama_profesi ?? '-' }}</td>
                             </tr>
 
                             <tr class="table-primary">
