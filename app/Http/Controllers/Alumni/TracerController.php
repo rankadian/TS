@@ -37,7 +37,6 @@ class TracerController extends Controller
 
     public function store_ajax(Request $request)
     {
-        // Cek apakah user sudah pernah submit
         $exists = TracerModel::where('alumni_id', auth()->id())->exists();
         if ($exists) {
             return response()->json([
@@ -46,7 +45,6 @@ class TracerController extends Controller
             ], 403);
         }
 
-        // Validasi input
         $validator = Validator::make($request->all(), [
             'date_first_work' => 'required|date',
             'agency_start_date' => 'required|date',
@@ -96,13 +94,13 @@ class TracerController extends Controller
     }
 
     public function edit_ajax($id)
-{
-    $data = TracerModel::findOrFail($id);
-    $categories = CategoryModel::all();
-    $professions = ProfesiModel::all();
+    {
+        $data = TracerModel::findOrFail($id);
+        $categories = CategoryModel::all();
+        $professions = ProfesiModel::all();
 
-    return view('alumni.tracer.edit_ajax', compact('data', 'categories', 'professions'));
-}
+        return view('alumni.tracer.edit_ajax', compact('data', 'categories', 'professions'));
+    }
 
 
     public function update_ajax(Request $request, $id)
