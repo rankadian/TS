@@ -66,12 +66,6 @@ class DataAlumniController extends Controller
     }
 
 
-    // public function create_ajax()
-    // {
-    //     $roles = RoleModel::all();
-    //     return view('admin.dataalumni.create_ajax', compact('roles'));
-    // }
-
     public function store_ajax(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -86,7 +80,7 @@ class DataAlumniController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validasi gagal',
+                'message' => 'Validation failed',
                 'msgField' => $validator->errors()
             ]);
         }
@@ -98,13 +92,13 @@ class DataAlumniController extends Controller
             'year_graduated' => $request->year_graduated,
             'program_study' => $request->program_study,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id ?? 2,  // default role alumni = 2
+            'role_id' => $request->role_id ?? 2,
             'no_hp' => $request->no_hp ?? null,
         ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Alumni berhasil ditambahkan'
+            'message' => 'Alumni successfully added'
         ]);
     }
 
@@ -140,7 +134,7 @@ class DataAlumniController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validasi gagal',
+                'message' => 'Validation failed',
                 'msgField' => $validator->errors()
             ]);
         }
@@ -158,7 +152,7 @@ class DataAlumniController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Data alumni berhasil diperbarui'
+            'message' => 'Alumni data updated successfully'
         ]);
     }
 
@@ -176,12 +170,12 @@ class DataAlumniController extends Controller
                 $alumni->delete();
                 return response()->json([
                     'status' => true,
-                    'message' => 'Data alumni berhasil dihapus'
+                    'message' => 'Alumni data successfully deleted'
                 ]);
             }
             return response()->json([
                 'status' => false,
-                'message' => 'Data alumni tidak ditemukan'
+                'message' => 'Alumni data not found'
             ]);
         }
         return redirect('/');
@@ -255,7 +249,7 @@ class DataAlumniController extends Controller
                         'name' => (string) $value['C'],
                         'year_graduated' => $datePassed,
                         'email' => $email,
-                        'password' => bcrypt(substr($nim, 0, 10)), // default password = NIM
+                        'password' => bcrypt(substr($nim, 0, 10)),
                         'created_at' => now(),
                     ];
                 }
