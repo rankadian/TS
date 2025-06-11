@@ -113,163 +113,263 @@
                 <form id="surveyForm" method="POST" action="{{ route('alumni.survey.store_ajax') }}">
                     @csrf
 
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="section-box mb-4 p-3 bg-light rounded">
-                                <h5 class="fw-bold text-primary mb-3">
-                                    <i class="fas fa-user-graduate me-2"></i> Alumni Data
-                                </h5>
-
-                                <div class="mb-3">
-                                    <label class="form-label">NIM <span class="text-danger">*</span></label>
-                                    <select class="form-select select2-nim" name="nim" id="nimSelect" required>
-                                        <option value="">Choose Your NIM or Look for it</option>
-                                        @foreach($alumniList as $alumni)
-                                            <option value="{{ $alumni->nim }}" 
-                                                data-name="{{ $alumni->name }}"
-                                                data-program-studi="{{ $alumni->program_study }}"
-                                                data-year_graduated="{{ $alumni->year_graduated }}"
-                                                data-email="{{ $alumni->email }}">
-                                                {{ $alumni->nim }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="namaInput" readonly>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Study Program</label>
-                                    <input type="text" class="form-control" id="programStudiInput" readonly>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Year Graduated</label>
-                                    <input type="text" class="form-control" id="tahunLulusInput" readonly>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="emailInput" readonly>
-                                </div>
-                            </div>
+                    <!-- Alumni Data Section -->
+                    <div class="section-box mb-4 p-4 bg-light rounded-3">
+                        <h5 class="fw-bold text-primary mb-4">
+                            <i class="fas fa-user-graduate me-2"></i> Alumni Data
+                        </h5>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">NIM</label>
+                            <select class="form-select select2-nim" name="nim" id="nimSelect" required style="width: 100%">
+                                <option value="">Select NIM or Type to Search</option>
+                                @foreach($alumniList as $alumni)
+                                    <option value="{{ $alumni->nim }}" 
+                                        data-name="{{ $alumni->name }}"
+                                        data-program-studi="{{ $alumni->program_study }}"
+                                        data-year_graduated="{{ $alumni->year_graduated }}"
+                                        data-email="{{ $alumni->email }}">
+                                        {{ $alumni->nim }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
-                        <div class="col-lg-6">
-                            <div class="section-box mb-4 p-3 bg-light rounded">
-                                <h5 class="fw-bold text-primary mb-3">
-                                    <i class="fas fa-briefcase me-2"></i> Employment Data
-                                </h5>
+                        <div class="border-top pt-3 mt-3"></div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Agency Name</label>
-                                    <input type="text" class="form-control" id="agencyNameInput" readonly>
-                                </div>
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-12">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control bg-white" id="namaInput" readonly>
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Profession</label>
-                                    <input type="text" class="form-control" id="professionInput" readonly>
-                                </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Study Program</label>
+                                <input type="text" class="form-control bg-white" id="programStudiInput" readonly>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Year Graduated</label>
+                                <input type="text" class="form-control bg-white" id="tahunLulusInput" readonly>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control bg-white" id="emailInput" readonly>
                             </div>
                         </div>
                     </div>
 
-                    <div class="section-box mb-4 p-3 bg-light rounded">
-                        <h5 class="fw-bold text-primary mb-3">
-                            <i class="fas fa-star me-2"></i> Competency Assessment
+                    <!-- Employment Data Section -->
+                    <div class="section-box mb-4 p-4 bg-light rounded-3">
+                        <h5 class="fw-bold text-primary mb-4">
+                            <i class="fas fa-briefcase me-2"></i> Employment Data
                         </h5>
-                        <p class="text-muted">Please rate the following competencies (1 = Poor, 4 = Excellent):</p>
 
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Teamwork <span class="text-danger">*</span></label>
-                                <select class="form-select" name="teamwork" required>
-                                    <option value="">Select Rating</option>
-                                    <option value="1">1 - Poor</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="3">3 - Good</option>
-                                    <option value="4">4 - Excellent</option>
-                                </select>
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">Agency Name</label>
+                                <input type="text" class="form-control bg-white" id="agencyNameInput" readonly>
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">IT Skills <span class="text-danger">*</span></label>
-                                <select class="form-select" name="it_skills" required>
-                                    <option value="">Select Rating</option>
-                                    <option value="1">1 - Poor</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="3">3 - Good</option>
-                                    <option value="4">4 - Excellent</option>
-                                </select>
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">Profession</label>
+                                <input type="text" class="form-control bg-white" id="professionInput" readonly>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Foreign Language <span class="text-danger">*</span></label>
-                                <select class="form-select" name="foreign_language" required>
-                                    <option value="">Select Rating</option>
-                                    <option value="1">1 - Poor</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="3">3 - Good</option>
-                                    <option value="4">4 - Excellent</option>
-                                </select>
-                            </div>
+                    <!-- Competency Assessment Section -->
+                    <div class="section-box mb-4 p-4 bg-light rounded-3">
+                        <h5 class="fw-bold text-primary mb-4">
+                            <i class="fas fa-star me-2"></i> Competency Assessment
+                        </h5>
+                        <p class="text-muted mb-4">Please rate the following competencies:</p>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Communication <span class="text-danger">*</span></label>
-                                <select class="form-select" name="communication" required>
-                                    <option value="">Select Rating</option>
-                                    <option value="1">1 - Poor</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="3">3 - Good</option>
-                                    <option value="4">4 - Excellent</option>
-                                </select>
+                        <!-- Teamwork -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">
+                                <span class="text-primary">1.</span> Teamwork <span class="text-danger">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                        <div class="square-radio">
+                                            <input type="radio" class="form-check-input" name="teamwork" 
+                                                   id="teamwork{{$value}}" value="{{$value}}" required>
+                                            <label for="teamwork{{$value}}" class="square-radio-label">
+                                                <span class="rating-value">{{$value}}</span>
+                                                <span class="rating-label">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-muted small">
+                                    <span>Poor</span>
+                                    <span>Excellent</span>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Self Development <span class="text-danger">*</span></label>
-                                <select class="form-select" name="self_development" required>
-                                    <option value="">Select Rating</option>
-                                    <option value="1">1 - Poor</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="3">3 - Good</option>
-                                    <option value="4">4 - Excellent</option>
-                                </select>
+                        <!-- IT Skills -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">
+                                <span class="text-primary">2.</span> IT Skills <span class="text-danger">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                        <div class="square-radio">
+                                            <input type="radio" class="form-check-input" name="it_skills" 
+                                                   id="it_skills{{$value}}" value="{{$value}}" required>
+                                            <label for="it_skills{{$value}}" class="square-radio-label">
+                                                <span class="rating-value">{{$value}}</span>
+                                                <span class="rating-label">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-muted small">
+                                    <span>Poor</span>
+                                    <span>Excellent</span>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Leadership <span class="text-danger">*</span></label>
-                                <select class="form-select" name="leadership" required>
-                                    <option value="">Select Rating</option>
-                                    <option value="1">1 - Poor</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="3">3 - Good</option>
-                                    <option value="4">4 - Excellent</option>
-                                </select>
+                        <!-- Foreign Language -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">
+                                <span class="text-primary">3.</span> Foreign Language <span class="text-danger">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                        <div class="square-radio">
+                                            <input type="radio" class="form-check-input" name="foreign_language" 
+                                                   id="foreign_language{{$value}}" value="{{$value}}" required>
+                                            <label for="foreign_language{{$value}}" class="square-radio-label">
+                                                <span class="rating-value">{{$value}}</span>
+                                                <span class="rating-label">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-muted small">
+                                    <span>Poor</span>
+                                    <span>Excellent</span>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Work Ethic <span class="text-danger">*</span></label>
-                                <select class="form-select" name="work_ethic" required>
-                                    <option value="">Select Rating</option>
-                                    <option value="1">1 - Poor</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="3">3 - Good</option>
-                                    <option value="4">4 - Excellent</option>
-                                </select>
+                        <!-- Communication -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">
+                                <span class="text-primary">4.</span> Communication <span class="text-danger">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                        <div class="square-radio">
+                                            <input type="radio" class="form-check-input" name="communication" 
+                                                   id="communication{{$value}}" value="{{$value}}" required>
+                                            <label for="communication{{$value}}" class="square-radio-label">
+                                                <span class="rating-value">{{$value}}</span>
+                                                <span class="rating-label">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-muted small">
+                                    <span>Poor</span>
+                                    <span>Excellent</span>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="col-12 mt-3">
-                                <label class="form-label">Unmet Competencies</label>
-                                <textarea class="form-control" name="unmet_competencies" rows="3" placeholder="Please mention any competencies you feel were not adequately addressed during your studies"></textarea>
+                        <!-- Self Development -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">
+                                <span class="text-primary">5.</span> Self Development <span class="text-danger">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                        <div class="square-radio">
+                                            <input type="radio" class="form-check-input" name="self_development" 
+                                                   id="self_development{{$value}}" value="{{$value}}" required>
+                                            <label for="self_development{{$value}}" class="square-radio-label">
+                                                <span class="rating-value">{{$value}}</span>
+                                                <span class="rating-label">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-muted small">
+                                    <span>Poor</span>
+                                    <span>Excellent</span>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="col-12 mt-3">
-                                <label class="form-label">Curriculum Suggestions</label>
-                                <textarea class="form-control" name="curriculum_suggestions" rows="3" placeholder="Please provide any suggestions for curriculum improvement"></textarea>
+                        <!-- Leadership -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">
+                                <span class="text-primary">6.</span> Leadership <span class="text-danger">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                        <div class="square-radio">
+                                            <input type="radio" class="form-check-input" name="leadership" 
+                                                   id="leadership{{$value}}" value="{{$value}}" required>
+                                            <label for="leadership{{$value}}" class="square-radio-label">
+                                                <span class="rating-value">{{$value}}</span>
+                                                <span class="rating-label">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-muted small">
+                                    <span>Poor</span>
+                                    <span>Excellent</span>
+                                </div>
                             </div>
+                        </div>
+
+                        <!-- Work Ethic -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">
+                                <span class="text-primary">7.</span> Work Ethic <span class="text-danger">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                        <div class="square-radio">
+                                            <input type="radio" class="form-check-input" name="work_ethic" 
+                                                   id="work_ethic{{$value}}" value="{{$value}}" required>
+                                            <label for="work_ethic{{$value}}" class="square-radio-label">
+                                                <span class="rating-value">{{$value}}</span>
+                                                <span class="rating-label">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-muted small">
+                                    <span>Poor</span>
+                                    <span>Excellent</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Inputs -->
+                        <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                            <label class="form-label fw-bold d-block mb-3">8. Unmet Competencies</label>
+                            <textarea class="form-control" name="unmet_competencies" rows="3" placeholder="Please mention any competencies you feel were not adequately addressed during your studies"></textarea>
+                        </div>
+
+                        <div class="question-box bg-white p-4 rounded-3 border">
+                            <label class="form-label fw-bold d-block mb-3">9. Curriculum Suggestions</label>
+                            <textarea class="form-control" name="curriculum_suggestions" rows="3" placeholder="Please provide any suggestions for curriculum improvement"></textarea>
                         </div>
                     </div>
 
@@ -308,46 +408,50 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <style>
-        /* Same CSS as tracer study */
         .container-fluid {
             padding-left: 1.5rem;
             padding-right: 1.5rem;
         }
 
         .card {
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             border: none;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
         }
 
         .card-header {
-            border-radius: 0.5rem 0.5rem 0 0 !important;
+            border-radius: 0.75rem 0.75rem 0 0 !important;
             padding: 1rem 1.5rem;
         }
 
         .section-box {
-            border-left: 4px solid #1890ff;
+            border-left: 4px solid #0d6efd;
             background-color: #f8f9fa;
+            border-radius: 0.75rem;
         }
 
-        .table th {
-            width: 35%;
-            background-color: #f8f9fa;
+        .question-box {
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .table tr:not(.table-primary) th {
-            font-weight: normal;
+        .question-box:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #b8daff;
         }
 
-        .form-control,
-        .form-select {
-            border-radius: 0.375rem;
-            border: 1px solid #ced4da;
+        .rounded-3 {
+            border-radius: 0.75rem !important;
         }
 
         .form-control[readonly] {
-            background-color: #f8f9fa;
-            opacity: 1;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+        }
+
+        .border-top {
+            border-top: 1px solid #dee2e6 !important;
         }
 
         .select2-container--default .select2-selection--single {
@@ -364,62 +468,64 @@
             height: 36px;
         }
 
-        .alert {
-            border-radius: 0.375rem;
+        /* Beautiful Square Radio Buttons */
+        .square-radio {
+            position: relative;
+            flex: 1;
+            min-width: 80px;
         }
 
-        .btn-primary {
-            background-color: #0d6efd;
+        .square-radio input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .square-radio-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            height: 100%;
+        }
+
+        .square-radio input[type="radio"]:checked + .square-radio-label {
+            border-color: #0d6efd;
+            background-color: #f0f7ff;
+            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+        }
+
+        .square-radio input[type="radio"]:focus + .square-radio-label {
             border-color: #0d6efd;
         }
 
-        .btn-light {
-            background-color: #f8f9fa;
-            border-color: #f8f9fa;
+        .square-radio:hover .square-radio-label {
+            border-color: #adb5bd;
         }
 
-        .select2-container {
-            width: 100% !important;
-            display: block;
+        .rating-value {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #212529;
         }
 
-        .select2-container--default .select2-selection--single {
-            width: 100%;
-            height: 38px;
-            border: 1px solid #ced4da;
-            border-radius: 0.375rem;
-            padding: 0.375rem 0.75rem;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 36px;
-            padding-left: 0;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 36px;
-            right: 8px;
-        }
-
-        .select2-dropdown {
-            border: 1px solid #ced4da;
-            border-radius: 0.375rem;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-
-        .form-select, .select2-container--default .select2-selection--single {
+        .rating-label {
+            font-size: 0.8rem;
+            color: #6c757d;
             margin-top: 0.25rem;
         }
 
-        .card-header {
-            position: relative;
-        }
-
-        .card-header .btn {
-            position: absolute;
-            top: 50%;
-            right: 1rem;
-            transform: translateY(-50%);
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .square-radio {
+                min-width: 70px;
+            }
         }
     </style>
 @endpush
@@ -428,34 +534,12 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Helper function to get rating text
-        function getRatingText(rating) {
-            const ratings = {
-                1: 'Poor',
-                2: 'Fair',
-                3: 'Good',
-                4: 'Excellent'
-            };
-            return ratings[rating] || '';
-        }
-
         // Initialize Select2 for NIM
         $('.select2-nim').select2({
             placeholder: "Select NIM or Type to Search",
             allowClear: true,
-            templateResult: formatNimOption,
-            templateSelection: formatNimSelection
+            width: '100%'
         });
-
-        function formatNimOption(option) {
-            if (!option.id) return option.text;
-            return $('<span>').text(option.text.split(' - ')[0]);
-        }
-
-        function formatNimSelection(option) {
-            if (!option.id) return option.text;
-            return $('<span>').text(option.text.split(' - ')[0]);
-        }
 
         // Handle NIM selection change
         $('#nimSelect').on('change', function () {
@@ -491,7 +575,6 @@
         // Form submission via AJAX
         $('#surveyForm').on('submit', function (e) {
             e.preventDefault();
-
             const form = $(this);
             const url = form.attr('action');
             const formData = new FormData(this);
@@ -553,13 +636,10 @@
             $.get(`/alumni/survey/edit-ajax/${id}`, function (res) {
                 $('#editModalContent').html(res);
                 $('#editModal').modal('show');
-
-                // Reinitialize Select2 in modal
                 $('.select2-nim').select2({
                     placeholder: "Select NIM",
                     allowClear: true,
-                    templateResult: formatNimOption,
-                    templateSelection: formatNimSelection
+                    width: '100%'
                 });
             });
         }
