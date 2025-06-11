@@ -41,7 +41,7 @@ class TracerController extends Controller
         if ($exists) {
             return response()->json([
                 'status' => false,
-                'message' => 'Data sudah pernah dikirim. Anda hanya dapat mengedit.'
+                'message' => 'The data has already been sent. You can only edit.'
             ], 403);
         }
 
@@ -88,7 +88,7 @@ class TracerController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Data berhasil disimpan',
+            'message' => 'Data saved successfully',
             'data' => $tracer
         ]);
     }
@@ -148,7 +148,7 @@ class TracerController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Data berhasil diperbarui'
+            'message' => 'Data updated successfully'
         ]);
     }
 
