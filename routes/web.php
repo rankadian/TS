@@ -92,5 +92,14 @@ Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
         Route::get('/tracer/show-ajax/{id}', [TracerController::class, 'show_ajax'])->name('alumni.tracer.show_ajax');
         Route::post('/tracer/store-ajax', [TracerController::class, 'store_ajax'])->name('alumni.tracer.store_ajax');
         Route::post('/tracer/update-ajax/{id}', [TracerController::class, 'update_ajax'])->name('alumni.tracer.update_ajax');
+
+        // route tracer
+        Route::get('/survey', [TracerController::class, 'index'])->name('alumni.survey.index');
+        Route::get('/survey/edit-ajax/{id}', [TracerController::class, 'edit_ajax'])->name('alumni.survey.edit_ajax');
+        Route::get('/survey/confirm-ajax/{id}', [TracerController::class, 'confirm_ajax'])->name('alumni.survey.confirm_ajax');
+        Route::get('/survey/show-ajax/{id}', [TracerController::class, 'show_ajax'])->name('alumni.survey.show_ajax');
+        Route::post('/survey/store-ajax', [TracerController::class, 'store_ajax'])->name('alumni.survey.store_ajax');
+        Route::post('/survey/update-ajax/{id}', [TracerController::class, 'update_ajax'])->name('alumni.survey.update_ajax');
     });
+
 });
