@@ -29,43 +29,46 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <div class="form-group">
                         <label>Study Program</label>
-                        <input type="text" name="program_study" id="program_study" class="form-control" value="{{ $alumni->program_study }}" required>
+                        <input type="text" name="program_study" id="program_study" class="form-control"
+                            value="{{ $alumni->program_study }}" required>
                         <small id="error-program_study" class="error-text form-text text-danger"></small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Date Passed</label>
-                        <input type="date" name="year_graduated" id="year_graduated" class="form-control" value="{{ $alumni->year_graduated }}" required>
+                        <input type="date" name="year_graduated" id="year_graduated" class="form-control"
+                            value="{{ $alumni->year_graduated }}" required>
                         <small id="error-year_graduated" class="error-text form-text text-danger"></small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="name" id="name" class="form-control" value="{{ $alumni->name }}" required>
                         <small id="error-name" class="error-text form-text text-danger"></small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="text" name="no_hp" id="no_hp" class="form-control" value="{{ $alumni->no_hp }}" required>
+                        <input type="text" name="no_hp" id="no_hp" class="form-control" value="{{ $alumni->no_hp }}">
                         <small id="error-no_hp" class="error-text form-text text-danger"></small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" id="email" class="form-control" value="{{ $alumni->email }}" required>
+                        <input type="email" name="email" id="email" class="form-control" value="{{ $alumni->email }}"
+                            required>
                         <small id="error-email" class="error-text form-text text-danger"></small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>NIM</label>
                         <input type="text" name="nim" id="nim" class="form-control" value="{{ $alumni->nim }}" required>
                         <small id="error-nim" class="error-text form-text text-danger"></small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Password</label>
                         <input type="password" name="password" id="password" class="form-control">
@@ -84,64 +87,64 @@
 @endempty
 
 <script>
-$(document).ready(function () {
-    $("#form-edit-alumni").validate({
-        rules: {
-            program_study: { required: true, minlength: 3 },
-            year_graduated: { required: true, date: true },
-            name: { required: true, minlength: 3 },
-            no_hp: { required: true, minlength: 9 },
-            email: { required: true, email: true, maxlength: 100 },
-            nim: { required: true, minlength: 3 },
-            password: { minlength: 5 }
-        },
-        submitHandler: function (form) {
-            $.ajax({
-                url: form.action,
-                type: form.method,
-                data: $(form).serialize(),
-                success: function (response) {
-                    if (response.status) {
-                        $('#myModal').modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message
-                        });
-                        dataAlumni.ajax.reload();
-                    } else {
-                        $('.error-text').text('');
-                        $.each(response.msgField, function (prefix, val) {
-                            $('#error-' + prefix).text(val[0]);
-                        });
+    $(document).ready(function () {
+        $("#form-edit-alumni").validate({
+            rules: {
+                program_study: { required: true, minlength: 3 },
+                year_graduated: { required: true, date: true },
+                name: { required: true, minlength: 3 },
+                no_hp: { minlength: 9 },
+                email: { required: true, email: true, maxlength: 100 },
+                nim: { required: true, minlength: 3 },
+                password: { minlength: 5 }
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        if (response.status) {
+                            $('#myModal').modal('hide');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message
+                            });
+                            dataAlumni.ajax.reload();
+                        } else {
+                            $('.error-text').text('');
+                            $.each(response.msgField, function (prefix, val) {
+                                $('#error-' + prefix).text(val[0]);
+                            });
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error occurred',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function () {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error occurred',
-                            text: response.message
+                            title: 'Server Error',
+                            text: 'An error occurred while saving data.'
                         });
                     }
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Server Error',
-                        text: 'An error occurred while saving data.'
-                    });
-                }
-            });
-            return false;
-        },
-        errorElement: 'span',
-        errorPlacement: function (error, element) {
-            error.addClass('invalid-feedback');
-            element.closest('.form-group').append(error);
-        },
-        highlight: function (element) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element) {
-            $(element).removeClass('is-invalid');
-        }
+                });
+                return false;
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
+            }
+        });
     });
-});
 </script>
