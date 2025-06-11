@@ -9,7 +9,7 @@ class SurveyModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'survey';
+    protected $table = 'survey'; 
 
     protected $fillable = [
         'alumni_id',
@@ -21,12 +21,16 @@ class SurveyModel extends Model
         'leadership',
         'work_ethic',
         'unmet_competencies',
-        'curriculum_suggestions',
+        'curriculum_suggestions'
     ];
 
-    // Relasi ke Tracer (melalui alumni_id -> tracer.id)
+    public function alumni()
+    {
+        return $this->belongsTo(AlumniModel::class);
+    }
+
     public function tracer()
     {
-        return $this->belongsTo(TracerModel::class, 'alumni_id');
+        return $this->belongsTo(TracerModel::class, 'alumni_id', 'alumni_id');
     }
 }
