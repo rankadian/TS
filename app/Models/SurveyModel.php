@@ -24,8 +24,9 @@ class SurveyModel extends Model
         'curriculum_suggestions',
     ];
 
-    public function alumni()
+    // Relasi ke Tracer (melalui alumni_id -> tracer.id)
+    public function tracer()
     {
-        return $this->belongsTo(AlumniModel::class, 'alumni_id');
+        return $this->belongsTo(TracerModel::class, 'alumni_id');
     }
 }
