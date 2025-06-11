@@ -188,7 +188,7 @@ class DataAlumniController extends Controller
 
     public function import_ajax(Request $request)
     {
-        if (!$request->ajax() && !$request->wantsJson()) {
+        if (!$request->ajax()) {
             return redirect('/');
         }
 
@@ -199,7 +199,7 @@ class DataAlumniController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validation Failed',
+                'message' => 'Terjadi kesalahan validasi',
                 'msgField' => $validator->errors()
             ]);
         }
@@ -208,7 +208,10 @@ class DataAlumniController extends Controller
             $file = $request->file('file_alumni');
 
             if (!$file->isValid()) {
-                throw new \Exception('Uploaded file is not valid');
+                return response()->json([
+                    'status' => false,
+                    'message' => 'File tidak valid',
+                ]);
             }
 
             $reader = IOFactory::createReader('Xlsx');
@@ -216,12 +219,12 @@ class DataAlumniController extends Controller
             $spreadsheet = $reader->load($file->getPathname());
 
             $sheet = $spreadsheet->getActiveSheet();
-            $data = $sheet->toArray(null, false, true, true); // with column letters (A, B, ...)
+            $data = $sheet->toArray(null, false, true, true);
 
             if (count($data) <= 1) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Empty file or header only'
+                    'message' => 'File kosong atau hanya berisi header',
                 ]);
             }
 
@@ -229,55 +232,46 @@ class DataAlumniController extends Controller
 
             foreach ($data as $baris => $value) {
                 if ($baris > 1 && !empty($value['B']) && !empty($value['E'])) {
-                    $email = (string) $value['E'];
-
-                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        continue;
-                    }
-
                     try {
-                        $datePassed = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value['D'])->format('Y-m-d');
+                        $tanggalLulus = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value['D'])->format('Y-m-d');
                     } catch (\Exception $e) {
-                        $datePassed = null;
+                        $tanggalLulus = null;
                     }
 
-                    $nim = (string) $value['B'];
+                    $nim = trim((string) $value['B']);
 
                     $insert[] = [
                         'program_study' => (string) $value['A'],
                         'nim' => $nim,
                         'name' => (string) $value['C'],
-                        'year_graduated' => $datePassed,
-                        'email' => $email,
-                        'password' => bcrypt(substr($nim, 0, 10)),
+                        'year_graduated' => $tanggalLulus,
+                        'email' => (string) $value['E'],
+                        'password' => bcrypt($nim),
+                        'code_role' => 'AMI',
+                        'role_id' => 2,
                         'created_at' => now(),
                     ];
                 }
             }
 
-            if (!empty($insert)) {
+            if (count($insert) > 0) {
                 AlumniModel::insertOrIgnore($insert);
 
                 return response()->json([
                     'status' => true,
-                    'message' => 'Data imported successfully',
+                    'message' => 'Successfully import alumni data.',
                     'count' => count($insert)
                 ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No valid data can be saved.'
+                ]);
             }
-
-            return response()->json([
-                'status' => false,
-                'message' => 'No valid data found'
-            ]);
-        } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Excel file reading error: ' . $e->getMessage()
-            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Error occurred: ' . $e->getMessage()
+                'message' => 'An error occurred while processing the file: ' . $e->getMessage()
             ]);
         }
     }
