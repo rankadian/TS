@@ -16,7 +16,6 @@ class AlumniController extends Controller
 {
     public function index()
     {
-
         $breadcrumb = (object) [
             'title' => 'Welcome to Tracer Study POLINEMA',
             'list' => ['Home', 'Welcome']
@@ -27,8 +26,11 @@ class AlumniController extends Controller
         ];
 
         $activeMenu = 'alumni';
-        $alumni = AlumniModel::all();
-        return view('alumni.dashboard.index', ['breadcrumb' => $breadcrumb, 'alumni' => $alumni, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('alumni.dashboard.index', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu
+        ]);
     }
 
     public function list(Request $request)
@@ -45,9 +47,9 @@ class AlumniController extends Controller
                 }
             })
             ->addColumn('aksi', function ($a) {
-                $btn = '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                
+                $btn = '<button onclick="modalAction(\'' . url('/alumni/' . $a->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/alumni/' . $a->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button>';
+                return $btn; 
             })
             ->rawColumns(['aksi'])
             ->order(function ($query) use ($request) {
@@ -65,16 +67,13 @@ class AlumniController extends Controller
     {
         $alumni = AlumniModel::find($id);
         $role = RoleModel::select('role_id', 'role_name')->get();
-
         return view('alumni.dashboard.show_ajax', compact('alumni', 'role'));
     }
 
     public function edit_ajax(string $id)
     {
-
         $alumni = AlumniModel::find($id);
         $role = RoleModel::select('role_id', 'role_name')->get();
-
         return view('alumni.dashboard.edit_ajax', ['alumni' => $alumni, 'role' => $role]);
     }
 
@@ -116,16 +115,14 @@ class AlumniController extends Controller
         ]);
     }
 
-   public function dashboard_welcome()
-{
-    return view('alumni.dashboard.welcome', [
-        'activeMenu' => 'dashboard',
-        'breadcrumb' => new Fluent([
-            'title' => 'Dashboard',
-            'list' => ['Home', 'Dashboard'],
-        ]),
-    ]);
+    public function dashboard_welcome()
+    {
+        return view('alumni.dashboard.welcome', [
+            'activeMenu' => 'dashboard',
+            'breadcrumb' => new Fluent([
+                'title' => 'Dashboard',
+                'list' => ['Home', 'Dashboard'],
+            ]),
+        ]);
+    }
 }
-}
-
-

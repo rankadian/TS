@@ -80,10 +80,10 @@ Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
         // route for alumni dashboard
         Route::get('/', [AlumniController::class, 'index'])->name('alumni.dashboard.index');
         Route::get('/dashboard', [AlumniController::class, 'dashboard_welcome'])->name('alumni.dashboard.welcome');
-        Route::post('/list', [AlumniController::class, 'alumni.dashboard.list']);
-        Route::get('/{id}/show_ajax', [AlumniController::class, 'alumni.dashboard.show_ajax']);
-        Route::get('/{id}/edit_ajax', [AlumniController::class, 'alumni.dashboard.edit_ajax']);
-        Route::put('/{id}/update_ajax', [AlumniController::class, 'alumni.dashboard.update_ajax']);
+        Route::post('/list', [AlumniController::class, 'list']);
+        Route::get('/{id}/show_ajax', [AlumniController::class, 'show_ajax']);
+        Route::get('/{id}/edit_ajax', [AlumniController::class, 'edit_ajax']);
+        Route::put('/{id}/update_ajax', [AlumniController::class, 'update_ajax']);
 
         // route tracer
         Route::get('/tracer', [TracerController::class, 'index'])->name('alumni.tracer.index');
