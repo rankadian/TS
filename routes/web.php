@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DataAlumniController;
 use App\Http\Controllers\Admin\ProfesiController;
 use App\Http\Controllers\Alumni\AlumniController;
+use App\Http\Controllers\Alumni\SurveyController;
 use App\Http\Controllers\Alumni\TracerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -81,9 +82,9 @@ Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
         Route::get('/', [AlumniController::class, 'index'])->name('alumni.dashboard.index');
         Route::get('/dashboard', [AlumniController::class, 'dashboard_welcome'])->name('alumni.dashboard.welcome');
         Route::post('/list', [AlumniController::class, 'list']);
-        Route::get('/{id}/show_ajax', [AlumniController::class, 'alumni.dashboard.show_ajax']);
-        Route::get('/{id}/edit_ajax', [AlumniController::class, 'alumni.dashboard.edit_ajax']);
-        Route::put('/{id}/update_ajax', [AlumniController::class, 'alumni.dashboard.update_ajax']);
+        Route::get('/{id}/show_ajax', [AlumniController::class, 'show_ajax']);
+        Route::get('/{id}/edit_ajax', [AlumniController::class, 'edit_ajax']);
+        Route::put('/{id}/update_ajax', [AlumniController::class, 'update_ajax']);
 
         // route tracer
         Route::get('/tracer', [TracerController::class, 'index'])->name('alumni.tracer.index');
@@ -92,5 +93,13 @@ Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
         Route::get('/tracer/show-ajax/{id}', [TracerController::class, 'show_ajax'])->name('alumni.tracer.show_ajax');
         Route::post('/tracer/store-ajax', [TracerController::class, 'store_ajax'])->name('alumni.tracer.store_ajax');
         Route::post('/tracer/update-ajax/{id}', [TracerController::class, 'update_ajax'])->name('alumni.tracer.update_ajax');
-    });
+
+        // route survey
+        Route::get('/survey', [SurveyController::class, 'index'])->name('alumni.survey.index');
+        Route::get('/survey/edit-ajax/{id}', [SurveyController::class, 'edit_ajax'])->name('alumni.survey.edit_ajax');
+        Route::get('/survey/show-ajax/{id}', [SurveyController::class, 'show_ajax'])->name('alumni.survey.show_ajax');
+        Route::post('/survey/store-ajax', [SurveyController::class, 'store_ajax'])->name('alumni.survey.store_ajax');
+        Route::post('/survey/update-ajax/{id}', [SurveyController::class, 'update_ajax'])->name('alumni.survey.update_ajax');
+        });
+
 });

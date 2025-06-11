@@ -47,9 +47,9 @@ class AlumniController extends Controller
                 }
             })
             ->addColumn('aksi', function ($a) {
-                $btn = '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/admin/data-alumni/' . $a->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button>';
-                return $btn; // ✅ Tambahkan return
+                $btn = '<button onclick="modalAction(\'' . url('/alumni/' . $a->id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/alumni/' . $a->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button>';
+                return $btn; 
             })
             ->rawColumns(['aksi'])
             ->order(function ($query) use ($request) {

@@ -59,9 +59,8 @@
                 </a>
             </li>
 
-
             <li class="nav-item">
-                <a href="{{ route('admin.profesi.index') }}"
+                <a href="{{ route('alumni.survey.index') }}"
                     class="nav-link {{ $activeMenu == 'profesi' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-poll"></i>
                     <p>Survey Form</p>
