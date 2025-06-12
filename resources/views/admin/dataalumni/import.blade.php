@@ -17,7 +17,7 @@
                     <small id="error-kategori_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Pilih File</label>
+                    <label>Select File</label>
                     <input type="file" name="file_alumni" id="file_alumni" class="form-control" required>
                     <small id="error-file_alumni" class="error-text form-text text-danger"></small>
                 </div>
@@ -40,36 +40,36 @@
                 }
             },
             submitHandler: function(form) {
-                var formData = new FormData(form); // Convert form to FormData to handle file upload
+                var formData = new FormData(form);
                 $.ajax({
                     url: form.action,
                     type: form.method,
-                    data: formData, // Send data as FormData
-                    processData: false, // Disable processing of data
-                    contentType: false, // Disable content type to handle file correctly
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
-                        if (response.status) { // If success
+                        if (response.status) {
                             $('#myModal').modal('hide');
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Success',
                                 text: response.message
                             });
-                            tableAlumni.ajax.reload(); // Reload datatable
-                        } else { // If error
+                            tableAlumni.ajax.reload();
+                        } else {
                             $('.error-text').text('');
                             $.each(response.msgField, function(prefix, val) {
                                 $('#error-' + prefix).text(val[0]);
                             });
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Error occurred',
+                                title: 'An Error Occurred',
                                 text: response.message
                             });
                         }
                     }
                 });
-                return false; // Prevent default form submission
+                return false;
             },
             errorElement: 'span',
             errorPlacement: function(error, element) {

@@ -27,7 +27,7 @@
                 <a href="{{ route('admin.dataalumni.index') }}"
                     class="nav-link {{ $activeMenu == 'data-alumni' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
-                    <p>Data Alumni</p>
+                    <p>Alumni Data</p>
                 </a>
             </li>
 
@@ -36,25 +36,25 @@
                 <a href="{{ route('admin.profesi.index') }}"
                     class="nav-link {{ $activeMenu == 'profesi' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user-tie"></i>
-                    <p>Manage the Profession</p>
+                    <p>Manage Profession</p>
                 </a>
             </li>
 
-            <li class="nav-header">Show Data</li>
+            <li class="nav-header">Display Data</li>
             <li class="nav-item">
                 <a href="{{ route('admin.grafik.index') }}"
                     class="nav-link {{ $activeMenu == 'grafik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
-                    <p>Graphic</p>
+                    <p>Chart</p>
                 </a>
             </li>
 
-            <li class="nav-header">Report Data</li>
+            <li class="nav-header">Export Data</li>
             <li class="nav-item">
                 <a href="{{ route('admin.dashboard.ekspor') }}"
                     class="nav-link {{ $activeMenu == 'ekspor' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-export"></i>
-                    <p>Ekspor Data</p>
+                    <p>Export Data</p>
                 </a>
             </li>
 
@@ -66,6 +66,5 @@
                 </a>
             </li>
         </ul>
-        
     </nav>
 </div>

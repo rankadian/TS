@@ -22,13 +22,13 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Prodi</th>
-                    <th>Tahun Lulus</th>
+                    <th>Study Program</th>
+                    <th>Graduation Year</th>
                     <th>Name</th>
-                    <th>No Telpon</th>
+                    <th>Phone Number</th>
                     <th>Email</th>
-                    <th>NIM</th>
-                    <th>Aksi</th>
+                    <th>Student ID</th>
+                    <th>Action</th>
                 </tr>
             </thead>
         </table>
