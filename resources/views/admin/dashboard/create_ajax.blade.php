@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Level Pengguna</label>
+                    <label>Role</label>
                     <input type="hidden" name="role_id" value="1">
                 </div>
                 <div class="form-group">

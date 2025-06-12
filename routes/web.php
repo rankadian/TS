@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DataAlumniController;
+use App\Http\Controllers\Admin\ExportAlumniController;
+use App\Http\Controllers\Admin\GrafikController;
 use App\Http\Controllers\Admin\ProfesiController;
 use App\Http\Controllers\Alumni\AlumniController;
 use App\Http\Controllers\Alumni\SurveyController;
@@ -72,6 +74,9 @@ Route::middleware(['auth:admin', 'authorize.user:ADM'])->group(function () {
         Route::put('/profesi/{id}/update_ajax', [ProfesiController::class, 'updateAjax'])->name('profesi.update_ajax');
         Route::get('/profesi/{id}/confirm_ajax', [ProfesiController::class, 'confirmDeleteAjax'])->name('profesi.confirm_ajax');
         Route::delete('/profesi/{id}/delete_ajax', [ProfesiController::class, 'deleteAjax'])->name('profesi.delete_ajax');
+    Route::get('/ekspor-alumni', [ExportAlumniController::class, 'exportPdf'])->name('admin.dashboard.ekspor');
+
+        Route::get('/grafik', [GrafikController::class, 'index'])->name('admin.grafik.index');
     });
 });
 

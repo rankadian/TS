@@ -16,14 +16,16 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 
             <li class="nav-item">
-                <a href="{{ route('admin.dashboard.index') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard.index') }}"
+                    class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.dataalumni.index') }}" class="nav-link {{ $activeMenu == 'data-alumni' ? 'active' : '' }}">
+                <a href="{{ route('admin.dataalumni.index') }}"
+                    class="nav-link {{ $activeMenu == 'data-alumni' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
                     <p>Data Alumni</p>
                 </a>
@@ -31,7 +33,8 @@
 
             <li class="nav-header">Manage</li>
             <li class="nav-item">
-                <a href="{{ route('admin.profesi.index') }}" class="nav-link {{ $activeMenu == 'profesi' ? 'active' : '' }}">
+                <a href="{{ route('admin.profesi.index') }}"
+                    class="nav-link {{ $activeMenu == 'profesi' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user-tie"></i>
                     <p>Manage the Profession</p>
                 </a>
@@ -47,7 +50,8 @@
 
             <li class="nav-header">Report Data</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.dashboard.ekspor') }}"
+                    class="nav-link {{ $activeMenu == 'ekspor' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-export"></i>
                     <p>Ekspor Data</p>
                 </a>
@@ -61,5 +65,5 @@
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav>
 </div>
