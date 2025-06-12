@@ -13,12 +13,12 @@ class ProfesiController extends Controller
 {
     public function index()
     {
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Profesi',
             'list' => ['Home', 'Profesi']
         ];
 
-        $page = (object)[
+        $page = (object) [
             'title' => 'List of Profesi'
         ];
 
@@ -37,9 +37,9 @@ class ProfesiController extends Controller
                 return $row->category ? $row->category->category_name : '-';
             })
             ->addColumn('aksi', function ($row) {
-                $btn = '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn = '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/show_ajax') . '\')" class="btn btn-info btn-sm">Details</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/confirm_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button>';
+                $btn .= '<button onclick="modalAction(\'' . url('/admin/profesi/' . $row->id_profesi . '/confirm_ajax') . '\')" class="btn btn-danger btn-sm">Delete</button>';
                 return $btn;
             })
             ->rawColumns(['aksi'])
