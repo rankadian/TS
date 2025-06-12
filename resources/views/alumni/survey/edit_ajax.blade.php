@@ -1,171 +1,111 @@
-<div class="modal-header bg-primary text-white">
-    <h5 class="modal-title" id="editModalLabel">
-        <i class="fas fa-edit me-2"></i> Edit Survey Data
-    </h5>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
+<form id="editSurveyForm" onsubmit="submitEditSurvey(event)">
+    @csrf
 
-<div class="modal-body">
-    <form id="editSurveyForm" method="POST" action="{{ route('alumni.survey.update_ajax', $survey->id) }}">
-        @csrf
-        @method('PUT')
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Survey Tracer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
 
-        <!-- Alumni Data -->
-        <div class="mb-4">
-            <h6 class="fw-bold text-primary mb-3">Alumni Data</h6>
-            <div class="mb-3">
-                <label class="form-label">NIM <span class="text-danger">*</span></label>
-                <select class="form-select select2-nim" name="nim" required style="width: 100%">
-                    <option value="">Select NIM</option>
-                    @foreach($alumniList as $alumni)
-                        <option value="{{ $alumni->nim }}" 
-                            @if($alumni->id == $survey->alumni_id) selected @endif
-                            data-name="{{ $alumni->name }}"
-                            data-program-studi="{{ $alumni->program_study }}"
-                            data-year_graduated="{{ $alumni->year_graduated }}"
-                            data-email="{{ $alumni->email }}">
-                            {{ $alumni->nim }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+    <div class="modal-body row">
+        <div class="col-md-6">
+            <x-form.input label="Student ID Number (NIM)" name="nim" value="{{ $survey->alumni->nim }}" required />
+
+            <x-form.select label="Teamwork" name="teamwork" required>
+                <option value="">-- Select --</option>
+                @for($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ $survey->teamwork == $i ? 'selected' : '' }}>
+                        {{ $i }} - {{ ['Poor', 'Fair', 'Good', 'Excellent'][$i - 1] }}
+                    </option>
+                @endfor
+            </x-form.select>
+
+            <x-form.select label="IT Skills" name="it_skills" required>
+                <option value="">-- Select --</option>
+                @for($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ $survey->it_skills == $i ? 'selected' : '' }}>
+                        {{ $i }} - {{ ['Poor', 'Fair', 'Good', 'Excellent'][$i - 1] }}
+                    </option>
+                @endfor
+            </x-form.select>
+
+            <x-form.select label="Foreign Language Proficiency" name="foreign_language" required>
+                <option value="">-- Select --</option>
+                @for($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ $survey->foreign_language == $i ? 'selected' : '' }}>
+                        {{ $i }} - {{ ['Poor', 'Fair', 'Good', 'Excellent'][$i - 1] }}
+                    </option>
+                @endfor
+            </x-form.select>
+
+            <x-form.select label="Communication Skills" name="communication" required>
+                <option value="">-- Select --</option>
+                @for($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ $survey->communication == $i ? 'selected' : '' }}>
+                        {{ $i }} - {{ ['Poor', 'Fair', 'Good', 'Excellent'][$i - 1] }}
+                    </option>
+                @endfor
+            </x-form.select>
         </div>
 
-        <!-- Competency Assessment -->
-        <div class="mb-4">
-            <h6 class="fw-bold text-primary mb-3">Competency Assessment</h6>
-            
-            <div class="row g-3">
-                <!-- Teamwork -->
-                <div class="col-md-6">
-                    <label class="form-label">Teamwork <span class="text-danger">*</span></label>
-                    <select class="form-select" name="teamwork" required>
-                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
-                            <option value="{{ $value }}" @if($survey->teamwork == $value) selected @endif>
-                                {{ $value }} - {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+        <div class="col-md-6">
+            <x-form.select label="Self Development" name="self_development" required>
+                <option value="">-- Select --</option>
+                @for($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ $survey->self_development == $i ? 'selected' : '' }}>
+                        {{ $i }} - {{ ['Poor', 'Fair', 'Good', 'Excellent'][$i - 1] }}
+                    </option>
+                @endfor
+            </x-form.select>
 
-                <!-- IT Skills -->
-                <div class="col-md-6">
-                    <label class="form-label">IT Skills <span class="text-danger">*</span></label>
-                    <select class="form-select" name="it_skills" required>
-                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
-                            <option value="{{ $value }}" @if($survey->it_skills == $value) selected @endif>
-                                {{ $value }} - {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+            <x-form.select label="Leadership" name="leadership" required>
+                <option value="">-- Select --</option>
+                @for($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ $survey->leadership == $i ? 'selected' : '' }}>
+                        {{ $i }} - {{ ['Poor', 'Fair', 'Good', 'Excellent'][$i - 1] }}
+                    </option>
+                @endfor
+            </x-form.select>
 
-                <!-- Foreign Language -->
-                <div class="col-md-6">
-                    <label class="form-label">Foreign Language <span class="text-danger">*</span></label>
-                    <select class="form-select" name="foreign_language" required>
-                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
-                            <option value="{{ $value }}" @if($survey->foreign_language == $value) selected @endif>
-                                {{ $value }} - {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+            <x-form.select label="Work Ethic" name="work_ethic" required>
+                <option value="">-- Select --</option>
+                @for($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ $survey->work_ethic == $i ? 'selected' : '' }}>
+                        {{ $i }} - {{ ['Poor', 'Fair', 'Good', 'Excellent'][$i - 1] }}
+                    </option>
+                @endfor
+            </x-form.select>
 
-                <!-- Communication -->
-                <div class="col-md-6">
-                    <label class="form-label">Communication <span class="text-danger">*</span></label>
-                    <select class="form-select" name="communication" required>
-                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
-                            <option value="{{ $value }}" @if($survey->communication == $value) selected @endif>
-                                {{ $value }} - {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+            <x-form.textarea label="Unmet Competencies" name="unmet_competencies" rows="3">{{ $survey->unmet_competencies }}</x-form.textarea>
 
-                <!-- Self Development -->
-                <div class="col-md-6">
-                    <label class="form-label">Self Development <span class="text-danger">*</span></label>
-                    <select class="form-select" name="self_development" required>
-                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
-                            <option value="{{ $value }}" @if($survey->self_development == $value) selected @endif>
-                                {{ $value }} - {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Leadership -->
-                <div class="col-md-6">
-                    <label class="form-label">Leadership <span class="text-danger">*</span></label>
-                    <select class="form-select" name="leadership" required>
-                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
-                            <option value="{{ $value }}" @if($survey->leadership == $value) selected @endif>
-                                {{ $value }} - {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Work Ethic -->
-                <div class="col-md-6">
-                    <label class="form-label">Work Ethic <span class="text-danger">*</span></label>
-                    <select class="form-select" name="work_ethic" required>
-                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
-                            <option value="{{ $value }}" @if($survey->work_ethic == $value) selected @endif>
-                                {{ $value }} - {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            <x-form.textarea label="Suggestions for Curriculum" name="curriculum_suggestions" rows="3">{{ $survey->curriculum_suggestions }}</x-form.textarea>
         </div>
+    </div>
 
-        <!-- Text Inputs -->
-        <div class="mb-3">
-            <label class="form-label">Unmet Competencies</label>
-            <textarea class="form-control" name="unmet_competencies" rows="3">{{ $survey->unmet_competencies }}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Curriculum Suggestions</label>
-            <textarea class="form-control" name="curriculum_suggestions" rows="3">{{ $survey->curriculum_suggestions }}</textarea>
-        </div>
-    </form>
-</div>
-
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        <i class="fas fa-times me-2"></i> Cancel
-    </button>
-    <button type="submit" form="editSurveyForm" class="btn btn-primary">
-        <i class="fas fa-save me-2"></i> Save Changes
-    </button>
-</div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Save Changes
+        </button>
+    </div>
+</form>
 
 <script>
-$(document).ready(function() {
-    // Initialize Select2 for NIM dropdown
-    $('.select2-nim').select2({
-        placeholder: "Select NIM",
-        dropdownParent: $('#editModal')
-    });
-
-    // Handle form submission
-    $('#editSurveyForm').on('submit', function(e) {
+    function submitEditSurvey(e) {
         e.preventDefault();
-        
-        const form = $(this);
-        const formData = new FormData(this);
+
+        const form = $('#editSurveyForm');
+        const formData = new FormData(form[0]);
+        const url = `/alumni/tracer/update-ajax/{{ $survey->id }}`;
 
         $.ajax({
-            url: form.attr('action'),
-            method: 'POST',
+            url: url,
+            type: 'POST',
             data: formData,
             processData: false,
             contentType: false,
-            success: function(res) {
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (res) {
                 if (res.status) {
                     Swal.fire({
                         icon: 'success',
@@ -173,31 +113,34 @@ $(document).ready(function() {
                         text: res.message
                     }).then(() => {
                         $('#editModal').modal('hide');
-                        location.reload();
-                    });
-                }
-            },
-            error: function(xhr) {
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-                    let message = '';
-                    for (let field in errors) {
-                        message += errors[field].join('<br>') + '<br>';
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Validation Error',
-                        html: message
+                        $('#editModalContent').html('');
+                        $('#dataSurveyTable').load(window.location.href + ' #dataSurveyTable > *');
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to update data. Please try again.'
+                        title: 'Failed',
+                        text: res.message || 'Failed to save changes'
+                    });
+                }
+            },
+            error: function (xhr) {
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    let msg = Object.values(errors).map(e => `- ${e[0]}`).join('\n');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Validation Error',
+                        text: msg
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server Error',
+                        text: 'An error occurred on the server.'
                     });
                 }
             }
         });
-    });
-});
+    }
 </script>
