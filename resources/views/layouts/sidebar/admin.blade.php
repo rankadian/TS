@@ -42,7 +42,8 @@
 
             <li class="nav-header">Show Data</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.grafik.index') }}"
+                    class="nav-link {{ $activeMenu == 'grafik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Graphic</p>
                 </a>
@@ -65,5 +66,6 @@
                 </a>
             </li>
         </ul>
-    </nav>
+        
+    </nav>
 </div>
