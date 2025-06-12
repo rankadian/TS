@@ -1,150 +1,97 @@
-@empty($alumni)
-    <div id="modal-master" class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Error</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger">
-                    <h5><i class="icon fas fa-ban"></i> Error!!!</h5>
-                    The data you are looking for was not found
-                </div>
-                <a href="{{ url('/alumni/dashboard') }}" class="btn btn-warning">Back</a>
-            </div>
-        </div>
-    </div>
-@else
-    <form action="{{ url('/alumni/' . $alumni->id . '/update_ajax') }}" method="POST" id="form-edit-alumni">
-        @csrf
-        @method('PUT')
-        <div id="modal-master" class="modal-dialog modal-lg" role="document">
+<form action="{{ url('/alumni/' . $alumni->id . '/update_ajax') }}" method="POST" id="form-edit-alumni">
+    @csrf
+    @method('PUT')
+    <div id="modal-master" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+                    {{-- Form Fields --}}
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" class="form-control" value="{{ $alumni->name }}" required>
+                        <small id="error-name" class="form-text text-danger"></small>
+                    </div>
 
                     <div class="form-group">
                         <label>Study Program</label>
-                        <input type="text" name="program_study" id="program_study" class="form-control"
-                            value="{{ $alumni->program_study }}" required>
-                        <small id="error-program_study" class="error-text form-text text-danger"></small>
+                        <input type="text" name="program_study" class="form-control" value="{{ $alumni->program_study }}" required>
+                        <small id="error-program_study" class="form-text text-danger"></small>
                     </div>
 
                     <div class="form-group">
-                        <label>Date Passed</label>
-                        <input type="date" name="year_graduated" id="year_graduated" class="form-control"
-                            value="{{ $alumni->year_graduated }}" required>
-                        <small id="error-year_graduated" class="error-text form-text text-danger"></small>
+                        <label>Student ID (NIM)</label>
+                        <input type="text" name="nim" class="form-control" value="{{ $alumni->nim }}" required>
+                        <small id="error-nim" class="form-text text-danger"></small>
                     </div>
 
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" id="name" class="form-control" value="{{ $alumni->name }}" required>
-                        <small id="error-name" class="error-text form-text text-danger"></small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="text" name="no_hp" id="no_hp" class="form-control" value="{{ $alumni->no_hp }}"
-                            required>
-                        <small id="error-no_hp" class="error-text form-text text-danger"></small>
+                        <label>Graduation Date</label>
+                        <input type="date" name="year_graduated" class="form-control" value="{{ $alumni->year_graduated }}" required>
+                        <small id="error-year_graduated" class="form-text text-danger"></small>
                     </div>
 
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" id="email" class="form-control" value="{{ $alumni->email }}"
-                            required>
-                        <small id="error-email" class="error-text form-text text-danger"></small>
+                        <input type="email" name="email" class="form-control" value="{{ $alumni->email }}" required>
+                        <small id="error-email" class="form-text text-danger"></small>
                     </div>
 
                     <div class="form-group">
-                        <label>NIM</label>
-                        <input type="text" name="nim" id="nim" class="form-control" value="{{ $alumni->nim }}" required>
-                        <small id="error-nim" class="error-text form-text text-danger"></small>
+                        <label>Phone Number</label>
+                        <input type="text" name="no_hp" class="form-control" value="{{ $alumni->no_hp }}">
+                        <small id="error-no_hp" class="form-text text-danger"></small>
                     </div>
 
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="password" id="password" class="form-control">
-                        <small class="form-text text-muted">Ignore if you don't want to change the password</small>
-                        <small id="error-password" class="error-text form-text text-danger"></small>
+                        <label>Password (Leave blank if unchanged)</label>
+                        <input type="password" name="password" class="form-control">
+                        <small id="error-password" class="form-text text-danger"></small>
                     </div>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-warning">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
-    </form>
-@endempty
-
+    </div>
+</form>
 <script>
-    $(document).ready(function () {
-        $("#form-edit-alumni").validate({
-            rules: {
-                program_study: { required: true, minlength: 3 },
-                year_graduated: { required: true, date: true },
-                name: { required: true, minlength: 3 },
-                no_hp: { required: true, minlength: 9 },
-                email: { required: true, email: true, maxlength: 100 },
-                nim: { required: true, minlength: 3 },
-                password: { minlength: 5 }
+    $('#form-edit-alumni').on('submit', function (e) {
+        e.preventDefault();
+        let form = $(this);
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            success: function (res) {
+                if (res.status) {
+                    $('#modal-master').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message
+                    }).then(() => location.reload());
+                } else {
+                    $('.form-text.text-danger').text('');
+                    $.each(res.msgField, function (key, value) {
+                        $('#error-' + key).text(value[0]);
+                    });
+                }
             },
-            submitHandler: function (form) {
-                $.ajax({
-                    url: form.action,
-                    type: form.method,
-                    data: $(form).serialize(),
-                    success: function (response) {
-                        if (response.status) {
-                            $('#myModal').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: response.message
-                            });
-                            dataAlumni.ajax.reload();
-                        } else {
-                            $('.error-text').text('');
-                            $.each(response.msgField, function (prefix, val) {
-                                $('#error-' + prefix).text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error occurred',
-                                text: response.message
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Server Error',
-                            text: 'An error occurred while saving data.'
-                        });
-                    }
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while saving data.'
                 });
-                return false;
-            },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function (element) {
-                $(element).removeClass('is-invalid');
             }
         });
     });
