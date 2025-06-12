@@ -11,35 +11,34 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{-- Form Fields --}}
+
+                    <div class="alert alert-info">
+                        Only phone number and password can be updated.
+                    </div>
+
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" name="name" class="form-control" value="{{ $alumni->name }}" required>
-                        <small id="error-name" class="form-text text-danger"></small>
+                        <input type="text" class="form-control" value="{{ $alumni->name }}" readonly>
                     </div>
 
                     <div class="form-group">
                         <label>Study Program</label>
-                        <input type="text" name="program_study" class="form-control" value="{{ $alumni->program_study }}" required>
-                        <small id="error-program_study" class="form-text text-danger"></small>
+                        <input type="text" class="form-control" value="{{ $alumni->program_study }}" readonly>
                     </div>
 
                     <div class="form-group">
                         <label>Student ID (NIM)</label>
-                        <input type="text" name="nim" class="form-control" value="{{ $alumni->nim }}" required>
-                        <small id="error-nim" class="form-text text-danger"></small>
+                        <input type="text" class="form-control" value="{{ $alumni->nim }}" readonly>
                     </div>
 
                     <div class="form-group">
                         <label>Graduation Date</label>
-                        <input type="date" name="year_graduated" class="form-control" value="{{ $alumni->year_graduated }}" required>
-                        <small id="error-year_graduated" class="form-text text-danger"></small>
+                        <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($alumni->year_graduated)->format('d/m/Y') }}" readonly>
                     </div>
 
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ $alumni->email }}" required>
-                        <small id="error-email" class="form-text text-danger"></small>
+                        <input type="text" class="form-control" value="{{ $alumni->email }}" readonly>
                     </div>
 
                     <div class="form-group">
@@ -54,6 +53,7 @@
                         <small id="error-password" class="form-text text-danger"></small>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -62,6 +62,7 @@
         </div>
     </div>
 </form>
+
 <script>
     $('#form-edit-alumni').on('submit', function (e) {
         e.preventDefault();

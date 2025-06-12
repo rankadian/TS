@@ -41,11 +41,7 @@ class AlumniController extends Controller
         $alumni = AlumniModel::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:m_alumni,email,' . $id,
-            'nim' => 'required|unique:m_alumni,nim,' . $id,
-            'year_graduated' => 'required|date',
-            'program_study' => 'required|string|min:3',
+            'no_hp' => 'nullable|string|min:8',
             'password' => 'nullable|min:5',
         ]);
 
@@ -58,11 +54,6 @@ class AlumniController extends Controller
         }
 
         $alumni->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'nim' => $request->nim,
-            'year_graduated' => $request->year_graduated,
-            'program_study' => $request->program_study,
             'no_hp' => $request->no_hp ?? $alumni->no_hp,
             'password' => $request->password ? Hash::make($request->password) : $alumni->password
         ]);
