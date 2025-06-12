@@ -23,12 +23,11 @@
                 </a>
             </li>
 
-            <li class="nav-header">Data</li>
              <li class="nav-item">
                 <a href="{{ route('admin.dataalumni.index') }}"
                     class="nav-link {{ $activeMenu == 'data-alumni' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
-                    <p>List of Alumni</p>
+                    <p>Profile</p>
                 </a>
             </li>
 
