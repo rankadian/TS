@@ -75,29 +75,29 @@
                                 <td>{{ $survey->teamwork ? $survey->teamwork.' - '.$survey->getRatingText($survey->teamwork) : '-' }}</td>
                             </tr>
                             <tr>
-    <th>IT Skills</th>
-    <td>{{ $survey->it_skills ? $survey->it_skills.' - '.$survey->getRatingText($survey->it_skills) : '-' }}</td>
-</tr>
-<tr>
-    <th>Foreign Language</th>
-    <td>{{ $survey->foreign_language ? $survey->foreign_language.' - '.$survey->getRatingText($survey->foreign_language) : '-' }}</td>
-</tr>
-<tr>
-    <th>Communication</th>
-    <td>{{ $survey->communication ? $survey->communication.' - '.$survey->getRatingText($survey->communication) : '-' }}</td>
-</tr>
-<tr>
-    <th>Self Development</th>
-    <td>{{ $survey->self_development ? $survey->self_development.' - '.$survey->getRatingText($survey->self_development) : '-' }}</td>
-</tr>
-<tr>
-    <th>Leadership</th>
-    <td>{{ $survey->leadership ? $survey->leadership.' - '.$survey->getRatingText($survey->leadership) : '-' }}</td>
-</tr>
-<tr>
-    <th>Work Ethic</th>
-    <td>{{ $survey->work_ethic ? $survey->work_ethic.' - '.$survey->getRatingText($survey->work_ethic) : '-' }}</td>
-</tr>
+                                <th>IT Skills</th>
+                                <td>{{ $survey->it_skills ? $survey->it_skills.' - '.$survey->getRatingText($survey->it_skills) : '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Foreign Language</th>
+                                <td>{{ $survey->foreign_language ? $survey->foreign_language.' - '.$survey->getRatingText($survey->foreign_language) : '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Communication</th>
+                                <td>{{ $survey->communication ? $survey->communication.' - '.$survey->getRatingText($survey->communication) : '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Self Development</th>
+                                <td>{{ $survey->self_development ? $survey->self_development.' - '.$survey->getRatingText($survey->self_development) : '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Leadership</th>
+                                <td>{{ $survey->leadership ? $survey->leadership.' - '.$survey->getRatingText($survey->leadership) : '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Work Ethic</th>
+                                <td>{{ $survey->work_ethic ? $survey->work_ethic.' - '.$survey->getRatingText($survey->work_ethic) : '-' }}</td>
+                            </tr>
                             <tr>
                                 <th>Unmet Competencies</th>
                                 <td>{{ $survey->unmet_competencies ?? '-' }}</td>
@@ -396,9 +396,298 @@
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" id="editModalContent">
-                <!-- Content loaded via AJAX -->
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white py-3">
+                    <h5 class="modal-title" id="editModalLabel">
+                        <i class="fas fa-edit me-2"></i> Edit Survey Data
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body p-4">
+                    <form id="editSurveyForm" method="POST" action="{{ route('alumni.survey.update_ajax', $survey->id ?? '') }}">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Alumni Data Section -->
+                        <div class="section-box mb-4 p-4 bg-light rounded-3">
+                            <h5 class="fw-bold text-primary mb-4">
+                                <i class="fas fa-user-graduate me-2"></i> Alumni Data
+                            </h5>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">NIM <span class="text-danger">*</span></label>
+                                <select class="form-select select2-nim" name="nim" id="editNimSelect" required style="width: 100%">
+                                    <option value="">Select NIM or Type to Search</option>
+                                    @foreach($alumniList as $alumni)
+                                        <option value="{{ $alumni->nim }}" 
+                                            @if(isset($survey) && $alumni->id == $survey->alumni_id) selected @endif
+                                            data-name="{{ $alumni->name }}"
+                                            data-program-studi="{{ $alumni->program_study }}"
+                                            data-year_graduated="{{ $alumni->year_graduated }}"
+                                            data-email="{{ $alumni->email }}">
+                                            {{ $alumni->nim }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="border-top pt-3 mt-3"></div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-12">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" class="form-control bg-white" id="editNamaInput" value="{{ $survey->alumni->name ?? '' }}" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Study Program</label>
+                                    <input type="text" class="form-control bg-white" id="editProgramStudiInput" value="{{ $survey->alumni->program_study ?? '' }}" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Year Graduated</label>
+                                    <input type="text" class="form-control bg-white" id="editTahunLulusInput" value="{{ $survey->alumni->year_graduated ?? '' }}" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control bg-white" id="editEmailInput" value="{{ $survey->alumni->email ?? '' }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Data Section -->
+                        <div class="section-box mb-4 p-4 bg-light rounded-3">
+                            <h5 class="fw-bold text-primary mb-4">
+                                <i class="fas fa-briefcase me-2"></i> Employment Data
+                            </h5>
+
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Agency Name</label>
+                                    <input type="text" class="form-control bg-white" id="editAgencyNameInput" value="{{ $survey->tracer->agency_name ?? '-' }}" readonly>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Profession</label>
+                                    <input type="text" class="form-control bg-white" id="editProfessionInput" value="{{ $survey->tracer->profesi->nama_profesi ?? '-' }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Competency Assessment Section -->
+                        <div class="section-box mb-4 p-4 bg-light rounded-3">
+                            <h5 class="fw-bold text-primary mb-4">
+                                <i class="fas fa-star me-2"></i> Competency Assessment
+                            </h5>
+                            <p class="text-muted mb-4">Please rate the following competencies:</p>
+
+                            <!-- Teamwork -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">
+                                    <span class="text-primary">1.</span> Teamwork <span class="text-danger">*</span>
+                                </label>
+                                <div class="rating-container">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                            <div class="square-radio">
+                                                <input type="radio" class="form-check-input" name="teamwork" 
+                                                       id="editTeamwork{{$value}}" value="{{$value}}" 
+                                                       @if(isset($survey) && $survey->teamwork == $value) checked @endif required>
+                                                <label for="editTeamwork{{$value}}" class="square-radio-label">
+                                                    <span class="rating-value">{{$value}}</span>
+                                                    <span class="rating-label">{{$label}}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- IT Skills -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">
+                                    <span class="text-primary">2.</span> IT Skills <span class="text-danger">*</span>
+                                </label>
+                                <div class="rating-container">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                            <div class="square-radio">
+                                                <input type="radio" class="form-check-input" name="it_skills" 
+                                                       id="editItSkills{{$value}}" value="{{$value}}" 
+                                                       @if(isset($survey) && $survey->it_skills == $value) checked @endif required>
+                                                <label for="editItSkills{{$value}}" class="square-radio-label">
+                                                    <span class="rating-value">{{$value}}</span>
+                                                    <span class="rating-label">{{$label}}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Foreign Language -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">
+                                    <span class="text-primary">3.</span> Foreign Language <span class="text-danger">*</span>
+                                </label>
+                                <div class="rating-container">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                            <div class="square-radio">
+                                                <input type="radio" class="form-check-input" name="foreign_language" 
+                                                       id="editForeignLanguage{{$value}}" value="{{$value}}" 
+                                                       @if(isset($survey) && $survey->foreign_language == $value) checked @endif required>
+                                                <label for="editForeignLanguage{{$value}}" class="square-radio-label">
+                                                    <span class="rating-value">{{$value}}</span>
+                                                    <span class="rating-label">{{$label}}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Communication -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">
+                                    <span class="text-primary">4.</span> Communication <span class="text-danger">*</span>
+                                </label>
+                                <div class="rating-container">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                            <div class="square-radio">
+                                                <input type="radio" class="form-check-input" name="communication" 
+                                                       id="editCommunication{{$value}}" value="{{$value}}" 
+                                                       @if(isset($survey) && $survey->communication == $value) checked @endif required>
+                                                <label for="editCommunication{{$value}}" class="square-radio-label">
+                                                    <span class="rating-value">{{$value}}</span>
+                                                    <span class="rating-label">{{$label}}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Self Development -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">
+                                    <span class="text-primary">5.</span> Self Development <span class="text-danger">*</span>
+                                </label>
+                                <div class="rating-container">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                            <div class="square-radio">
+                                                <input type="radio" class="form-check-input" name="self_development" 
+                                                       id="editSelfDevelopment{{$value}}" value="{{$value}}" 
+                                                       @if(isset($survey) && $survey->self_development == $value) checked @endif required>
+                                                <label for="editSelfDevelopment{{$value}}" class="square-radio-label">
+                                                    <span class="rating-value">{{$value}}</span>
+                                                    <span class="rating-label">{{$label}}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Leadership -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">
+                                    <span class="text-primary">6.</span> Leadership <span class="text-danger">*</span>
+                                </label>
+                                <div class="rating-container">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                            <div class="square-radio">
+                                                <input type="radio" class="form-check-input" name="leadership" 
+                                                       id="editLeadership{{$value}}" value="{{$value}}" 
+                                                       @if(isset($survey) && $survey->leadership == $value) checked @endif required>
+                                                <label for="editLeadership{{$value}}" class="square-radio-label">
+                                                    <span class="rating-value">{{$value}}</span>
+                                                    <span class="rating-label">{{$label}}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Work Ethic -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">
+                                    <span class="text-primary">7.</span> Work Ethic <span class="text-danger">*</span>
+                                </label>
+                                <div class="rating-container">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        @foreach([1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Excellent'] as $value => $label)
+                                            <div class="square-radio">
+                                                <input type="radio" class="form-check-input" name="work_ethic" 
+                                                       id="editWorkEthic{{$value}}" value="{{$value}}" 
+                                                       @if(isset($survey) && $survey->work_ethic == $value) checked @endif required>
+                                                <label for="editWorkEthic{{$value}}" class="square-radio-label">
+                                                    <span class="rating-value">{{$value}}</span>
+                                                    <span class="rating-label">{{$label}}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Text Inputs -->
+                            <div class="question-box bg-white p-4 rounded-3 border mb-4">
+                                <label class="form-label fw-bold d-block mb-3">8. Unmet Competencies</label>
+                                <textarea class="form-control" name="unmet_competencies" rows="3" placeholder="Please mention any competencies you feel were not adequately addressed during your studies">{{ $survey->unmet_competencies ?? '' }}</textarea>
+                            </div>
+
+                            <div class="question-box bg-white p-4 rounded-3 border">
+                                <label class="form-label fw-bold d-block mb-3">9. Curriculum Suggestions</label>
+                                <textarea class="form-control" name="curriculum_suggestions" rows="3" placeholder="Please provide any suggestions for curriculum improvement">{{ $survey->curriculum_suggestions ?? '' }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-secondary me-3 px-4 py-2" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-2"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary px-4 py-2">
+                                <i class="fas fa-save me-2"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
