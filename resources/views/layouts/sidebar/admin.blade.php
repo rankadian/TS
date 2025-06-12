@@ -38,12 +38,12 @@
             </li>
 
             <li class="nav-header">Show Data</li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-chart-bar"></i>
-                    <p>Graphic</p>
-                </a>
-            </li>
+<li class="nav-item">
+    <a href="{{ route('admin.grafik.index') }}" class="nav-link {{ $activeMenu == 'grafik' ? 'active' : '' }}">
+        <i class="nav-icon fas fa-chart-bar"></i>
+        <p>Grafik Alumni</p>
+    </a>
+</li>
 
             <li class="nav-header">Report Data</li>
             <li class="nav-item">
