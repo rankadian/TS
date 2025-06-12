@@ -36,4 +36,15 @@ class SurveyModel extends Model
         return $this->belongsTo(ProfesiModel::class, 'profesi_id', 'id_profesi');
     }
 
+    public function getRatingText($value)
+    {
+        $ratings = [
+            1 => 'Poor',
+            2 => 'Fair',
+            3 => 'Good',
+            4 => 'Excellent',
+        ];
+
+        return $ratings[$value] ?? 'Uknown';
+    }
 }

@@ -97,35 +97,40 @@ class SurveyController extends Controller
 
     public function update_ajax(Request $request, $id)
     {
-        $survey = SurveyModel::findOrFail($id);
+        $validated = $request->validate([
+        'nim' => 'required|exists:alumni,nim',
+        'teamwork' => 'required|integer|between:1,4',
+        'it_skills' => 'required|integer|between:1,4',
+        'foreign_language' => 'required|integer|between:1,4',
+        'communication' => 'required|integer|between:1,4',
+        'self_development' => 'required|integer|between:1,4',
+        'leadership' => 'required|integer|between:1,4',
+        'work_ethic' => 'required|integer|between:1,4',
+        'unmet_competencies' => 'nullable|string',
+        'curriculum_suggestions' => 'nullable|string',
+    ]);
 
-        $validator = Validator::make($request->all(), [
-            'teamwork' => 'required|integer|between:1,4',
-            'it_skills' => 'required|integer|between:1,4',
-            'foreign_language' => 'required|integer|between:1,4',
-            'communication' => 'required|integer|between:1,4',
-            'self_development' => 'required|integer|between:1,4',
-            'leadership' => 'required|integer|between:1,4',
-            'work_ethic' => 'required|integer|between:1,4',
-            'unmet_competencies' => 'nullable|string',
-            'curriculum_suggestions' => 'nullable|string'
-        ]);
+    $survey = SurveyModel::findOrFail($id);
+    
+    // Update data
+    $survey->update([
+        'alumni_id' => AlumniModel::where('nim', $validated['nim'])->first()->id,
+        'teamwork' => $validated['teamwork'],
+        'it_skills' => $validated['it_skills'],
+        'foreign_language' => $validated['foreign_language'],
+        'communication' => $validated['communication'],
+        'self_development' => $validated['self_development'],
+        'leadership' => $validated['leadership'],
+        'work_ethic' => $validated['work_ethic'],
+        'unmet_competencies' => $validated['unmet_competencies'],
+        'curriculum_suggestions' => $validated['curriculum_suggestions'],
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $survey->update($request->all());
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Survey updated successfully'
-        ]);
-    }
-
+    return response()->json([
+        'status' => true,
+        'message' => 'Survey data updated successfully'
+    ]);
+}
     public function show_ajax($id)
     {
         $survey = SurveyModel::with(['alumni', 'tracer'])->findOrFail($id);
@@ -134,4 +139,5 @@ class SurveyController extends Controller
             'data' => $survey
         ]);
     }
+    
 }

@@ -72,32 +72,32 @@
                             </tr>
                             <tr>
                                 <th>Teamwork</th>
-                                <td>{{ $survey->teamwork ? $survey->teamwork.' - '.getRatingText($survey->teamwork) : '-' }}</td>
+                                <td>{{ $survey->teamwork ? $survey->teamwork.' - '.$survey->getRatingText($survey->teamwork) : '-' }}</td>
                             </tr>
                             <tr>
-                                <th>IT Skills</th>
-                                <td>{{ $survey->it_skills ? $survey->it_skills.' - '.getRatingText($survey->it_skills) : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Foreign Language</th>
-                                <td>{{ $survey->foreign_language ? $survey->foreign_language.' - '.getRatingText($survey->foreign_language) : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Communication</th>
-                                <td>{{ $survey->communication ? $survey->communication.' - '.getRatingText($survey->communication) : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Self Development</th>
-                                <td>{{ $survey->self_development ? $survey->self_development.' - '.getRatingText($survey->self_development) : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Leadership</th>
-                                <td>{{ $survey->leadership ? $survey->leadership.' - '.getRatingText($survey->leadership) : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Work Ethic</th>
-                                <td>{{ $survey->work_ethic ? $survey->work_ethic.' - '.getRatingText($survey->work_ethic) : '-' }}</td>
-                            </tr>
+    <th>IT Skills</th>
+    <td>{{ $survey->it_skills ? $survey->it_skills.' - '.$survey->getRatingText($survey->it_skills) : '-' }}</td>
+</tr>
+<tr>
+    <th>Foreign Language</th>
+    <td>{{ $survey->foreign_language ? $survey->foreign_language.' - '.$survey->getRatingText($survey->foreign_language) : '-' }}</td>
+</tr>
+<tr>
+    <th>Communication</th>
+    <td>{{ $survey->communication ? $survey->communication.' - '.$survey->getRatingText($survey->communication) : '-' }}</td>
+</tr>
+<tr>
+    <th>Self Development</th>
+    <td>{{ $survey->self_development ? $survey->self_development.' - '.$survey->getRatingText($survey->self_development) : '-' }}</td>
+</tr>
+<tr>
+    <th>Leadership</th>
+    <td>{{ $survey->leadership ? $survey->leadership.' - '.$survey->getRatingText($survey->leadership) : '-' }}</td>
+</tr>
+<tr>
+    <th>Work Ethic</th>
+    <td>{{ $survey->work_ethic ? $survey->work_ethic.' - '.$survey->getRatingText($survey->work_ethic) : '-' }}</td>
+</tr>
                             <tr>
                                 <th>Unmet Competencies</th>
                                 <td>{{ $survey->unmet_competencies ?? '-' }}</td>
