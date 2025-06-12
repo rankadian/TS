@@ -160,4 +160,23 @@ class TracerController extends Controller
             'data' => $data
         ]);
     }
+
+    public function getByNim($nim)
+    {
+        $alumni = AlumniModel::where('nim', $nim)->first();
+
+        if (!$alumni) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Alumni with this NIM not found.'
+            ]);
+        }
+
+        $tracer = TracerModel::where('alumni_id', $alumni->id)->with('profesi')->first();
+
+        return response()->json([
+            'status' => true,
+            'tracer' => $tracer
+        ]);
+    }
 }

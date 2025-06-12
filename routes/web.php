@@ -93,6 +93,7 @@ Route::middleware(['auth:alumni', 'authorize.user:AMI'])->group(function () {
         Route::get('/tracer/show-ajax/{id}', [TracerController::class, 'show_ajax'])->name('alumni.tracer.show_ajax');
         Route::post('/tracer/store-ajax', [TracerController::class, 'store_ajax'])->name('alumni.tracer.store_ajax');
         Route::post('/tracer/update-ajax/{id}', [TracerController::class, 'update_ajax'])->name('alumni.tracer.update_ajax');
+        Route::get('/tracer/get-by-nim/{nim}', [TracerController::class, 'getByNim'])->name('alumni.tracer.get_by_nim');
 
         // route survey
         Route::get('/survey', [SurveyController::class, 'index'])->name('alumni.survey.index');

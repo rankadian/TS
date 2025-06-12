@@ -554,7 +554,7 @@
 
             // Get tracer data via AJAX if NIM is selected
             if (nim) {
-                $.get('/alumni/tracer/get-by-nim/' + nim, function(data) {
+                $.get('{{ route('alumni.tracer.get_by_nim', '') }}/' + nim, function(data) {
                     if (data.status && data.tracer) {
                         $('#agencyNameInput').val(data.tracer.agency_name);
                         $('#professionInput').val(data.tracer.profesi ? data.tracer.profesi.nama_profesi : '-');

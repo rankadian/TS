@@ -61,4 +61,9 @@ class AlumniModel extends Authenticatable
     {
         return $this->role->role_code === $role;
     }
+
+    public function tracer()
+    {
+        return $this->hasOne(TracerModel::class, 'nim', 'nim');
+    }
 }
