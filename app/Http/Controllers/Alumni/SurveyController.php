@@ -43,7 +43,7 @@ class SurveyController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'nim' => 'required|exists:alumni,nim',
+            'nim' => 'required|exists:m_alumni,nim',
             'teamwork' => 'required|integer|between:1,4',
             'it_skills' => 'required|integer|between:1,4',
             'foreign_language' => 'required|integer|between:1,4',
@@ -91,7 +91,7 @@ class SurveyController extends Controller
     {
         $survey = SurveyModel::findOrFail($id);
         $alumniList = AlumniModel::all();
-        
+
         return view('alumni.survey.edit_ajax', compact('survey', 'alumniList'));
     }
 
