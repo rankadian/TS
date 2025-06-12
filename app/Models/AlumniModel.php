@@ -63,7 +63,13 @@ class AlumniModel extends Authenticatable
     }
 
     public function tracer()
-    {
-        return $this->hasOne(TracerModel::class, 'nim', 'nim');
-    }
+{
+    return $this->hasOne(TracerModel::class, 'alumni_id', 'id');
+}
+
+public function survey()
+{
+    return $this->hasOne(SurveyModel::class, 'alumni_id', 'id');
+}
+
 }
